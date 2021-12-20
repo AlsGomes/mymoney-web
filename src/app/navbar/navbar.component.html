@@ -1,0 +1,18 @@
+<nav class="navbar">
+    <div class="container">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <a href="javascript:;" class="navbar-toggle" (click)="showingMenu = !showingMenu">
+                    <i class="pi pi-bars"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <ul class="navbar-menu" [hidden]="!showingMenu">
+        <li class="navbar-user">Alisson Gomes</li>
+        <li class="navbar-menuitem"><a href="#">Pessoas</a></li>
+        <li class="navbar-menuitem"><a href="#">Lançamentos</a></li>
+        <li class="navbar-menuitem"><a href="#">Logout</a></li>
+    </ul>
+</nav>
