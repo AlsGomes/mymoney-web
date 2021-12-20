@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-persons.component.css']
 })
 export class SearchPersonsComponent {
-
   persons = [
     {
       "code": "aa2310d7-e159-42f9-933c-c15048588d2b",

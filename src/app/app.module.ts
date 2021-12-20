@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchRegistersComponent } from './search-registers/search-registers.component';
 import { SearchPersonsComponent } from './search-persons/search-persons.component';
+import { OnInputFocusDirective } from './on-input-focus.directive';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SearchPersonsComponent } from './search-persons/search-persons.componen
     SearchRegistersComponent,
     NavbarComponent,
     SearchPersonsComponent,
+    OnInputFocusDirective,
   ],
   imports: [
     BrowserModule,
