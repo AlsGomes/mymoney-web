@@ -1,0 +1,31 @@
+@media (min-width: 40em) {
+    .col-value-header {
+        width: 120px;
+    }
+
+    .col-value-content {
+        text-align: right !important;
+    }
+
+    .col-date-header {
+        width: 120px;
+    }
+
+    .col-date-content {
+        text-align: center !important;
+    }
+
+    .col-actions {
+        width: 120px;
+        text-align: center !important;
+    }
+
+    .col-actions .p-button {
+        margin: 1px;
+    }
+}
+
+td a {
+    text-decoration: none;
+}
+

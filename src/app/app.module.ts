@@ -7,6 +7,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchRegistersComponent } from './search-registers/search-registers.component';
+import { SearchPersonsComponent } from './search-persons/search-persons.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     AppComponent,
     SearchRegistersComponent,
     NavbarComponent,
+    SearchPersonsComponent,
   ],
   imports: [
     BrowserModule,
