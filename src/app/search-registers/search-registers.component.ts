@@ -11,7 +11,7 @@ export class SearchRegistersComponent {
     {
       "code": "9ebcbdb2-b229-4e7f-aa92-5e9b81ea5f6f",
       "description": "Salário mensal",
-      "dueDate": "2017-06-10",
+      "dueDate": new Date("2017-06-10"),
       "value": 6500.00,
       "obs": "Distribuição de lucros",
       "type": "INCOME",
@@ -27,8 +27,8 @@ export class SearchRegistersComponent {
     {
       "code": "5b3728c6-4e37-439c-8094-06274269c077",
       "description": "Bahamas",
-      "dueDate": "2017-02-10",
-      "paymentDate": "2017-02-10",
+      "dueDate": new Date("2017-02-10"),
+      "paymentDate": new Date("2017-02-10"),
       "value": 100.32,
       "type": "EXPENSE",
       "category": {
@@ -43,7 +43,7 @@ export class SearchRegistersComponent {
     {
       "code": "ed8134b3-72dd-4356-8d33-7dd5a0d5afa6",
       "description": "Top Club",
-      "dueDate": "2017-06-10",
+      "dueDate": new Date("2017-06-10"),
       "value": 120.00,
       "type": "INCOME",
       "category": {
@@ -58,8 +58,8 @@ export class SearchRegistersComponent {
     {
       "code": "a59dc9d4-58dd-4472-a19a-d3365de65839",
       "description": "CEMIG",
-      "dueDate": "2017-02-10",
-      "paymentDate": "2017-02-10",
+      "dueDate": new Date("2017-02-10"),
+      "paymentDate": new Date("2017-02-10"),
       "value": 110.44,
       "obs": "Geração",
       "type": "INCOME",
@@ -75,7 +75,7 @@ export class SearchRegistersComponent {
     {
       "code": "12c67a61-8bfb-49a7-80b1-6b5b0ea49099",
       "description": "DMAE",
-      "dueDate": "2017-06-10",
+      "dueDate": new Date("2017-06-10"),
       "value": 200.30,
       "type": "EXPENSE",
       "category": {
@@ -90,8 +90,8 @@ export class SearchRegistersComponent {
     {
       "code": "0ac88bf6-0fa0-4b99-a1df-d6d436cc77c0",
       "description": "Extra",
-      "dueDate": "2017-03-10",
-      "paymentDate": "2017-03-10",
+      "dueDate": new Date("2017-03-10"),
+      "paymentDate": new Date("2017-03-10"),
       "value": 1010.32,
       "type": "INCOME",
       "category": {

@@ -6,14 +6,14 @@
 
         <div class="p-col-12 p-fluid mb-4 mr-2">
             <label>Descrição</label>
-            <input type="text" pInputText appOnInputFocus/>
+            <input type="text" pInputText appOnInputFocus />
         </div>
 
         <div class="p-col-12">
             <label style="display: block;">Vencimento</label>
-            <input type="text" pInputText style="width: 96px;" class="mr-1" appOnInputFocus/>
+            <input type="text" pInputText style="width: 96px;" class="mr-1" appOnInputFocus />
             <label>Até</label>
-            <input type="text" pInputText style="width: 96px;" class="ml-1" appOnInputFocus/>
+            <input type="text" pInputText style="width: 96px;" class="ml-1" appOnInputFocus />
         </div>
 
         <div class="p-col-12 mt-4 mb-4">
@@ -46,15 +46,16 @@
                         </td>
                         <td class="col-date-content">
                             <span class="p-column-title">Vencimento</span>
-                            {{register.dueDate}}
+                            {{register.dueDate | date:'dd/MM/y'}}
                         </td>
                         <td class="col-date-content">
                             <span class="p-column-title">Pagamento</span>
-                            {{register.paymentDate}}
+                            {{register.paymentDate | date:'dd/MM/y'}}
                         </td>
                         <td class="col-value-content">
                             <span class="p-column-title">Valor</span>
-                            <span [style.color]="register.type === 'EXPENSE' ? 'red' : 'blue'">{{register.value}}</span>
+                            <span [style.color]="register.type === 'EXPENSE' ? 'red' : 'blue'">{{register.value |
+                                currency:'BRL':true:'1.2-2'}}</span>
                         </td>
                         <td class="col-actions">
                             <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
