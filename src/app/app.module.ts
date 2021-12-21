@@ -16,6 +16,7 @@ import { OnInputFocusDirective } from './on-input-focus.directive';
 import { RegistryEditingComponent } from './registry-editing/registry-editing.component';
 import { SearchPersonsComponent } from './search-persons/search-persons.component';
 import { SearchRegistersComponent } from './search-registers/search-registers.component';
+import { PersonEditingComponent } from './person-editing/person-editing.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     SearchPersonsComponent,
     OnInputFocusDirective,
     RegistryEditingComponent,
+    PersonEditingComponent,
   ],
   imports: [
     BrowserModule,
