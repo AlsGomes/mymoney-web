@@ -1,6 +1,4 @@
-// import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-// import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +20,8 @@ import { PersonEditingComponent } from './person-editing/person-editing.componen
 import { RegistryEditingComponent } from './registry-editing/registry-editing.component';
 import { SearchPersonsComponent } from './search-persons/search-persons.component';
 import { SearchRegistersComponent } from './search-registers/search-registers.component';
+import { PersonsGridComponent } from './persons-grid/persons-grid.component';
+import { RegisterGridComponent } from './register-grid/register-grid.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +32,12 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     OnInputFocusDirective,
     RegistryEditingComponent,
     PersonEditingComponent,
+    PersonsGridComponent,
+    RegisterGridComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    // ReactiveFormsModule,
-    // CommonModule,
     FormsModule,
     InputTextModule,
     InputTextareaModule,

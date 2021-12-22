@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchRegistersComponent {
 
-  registers = [
+  registers: any[] = [
     {
       "code": "9ebcbdb2-b229-4e7f-aa92-5e9b81ea5f6f",
       "description": "Salário mensal",
