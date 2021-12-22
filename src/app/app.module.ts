@@ -1,4 +1,7 @@
+// import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+// import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +11,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MessageModule } from 'primeng/message';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -32,6 +36,9 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    // ReactiveFormsModule,
+    // CommonModule,
+    FormsModule,
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
@@ -42,6 +49,7 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     DropdownModule,
     InputNumberModule,
     InputMaskModule,
+    MessageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
