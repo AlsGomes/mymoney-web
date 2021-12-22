@@ -1,5 +1,5 @@
 <div class="container">
-    <form>
+    <form name="form" ngForm #form="ngForm">
         <div class="grid">
             <div class="col-12">
                 <h1>Nova Pessoa</h1>
@@ -7,7 +7,14 @@
 
             <div class="col-12 p-fluid">
                 <label>Nome</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="name" ngModel #name="ngModel" [required]="true" [minlength]="5">
+
+                <p-message *ngIf="name.hasError('required') && name.touched" text="Nome é obrigatório" severity="error">
+                </p-message>
+                
+                <p-message *ngIf="name.hasError('minlength') && name.touched"
+                    text="Mínimo de {{name.errors?.['minlength'].requiredLength}} caracteres" severity="error">
+                </p-message>
             </div>
 
             <div class="col-12 md:col-9 p-fluid">
@@ -31,7 +38,7 @@
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
-                <label>CEP</label>                
+                <label>CEP</label>
                 <p-inputMask mask="99999-999"></p-inputMask>
             </div>
 
@@ -46,7 +53,7 @@
             </div>
 
             <div class="col-12">
-                <button pButton type="submit">Salvar</button>
+                <button pButton type="submit" [disabled]="form.invalid">Salvar</button>
                 <button pButton type="button" class="p-button-info">Novo</button>
                 <a href="#">Voltar para a pesquisa</a>
             </div>
