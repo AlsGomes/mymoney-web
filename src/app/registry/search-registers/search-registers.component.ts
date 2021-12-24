@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LazyLoadEvent } from 'primeng/api';
 import { RegistryFilter, RegistryService } from '../registry.service';
 
 @Component({
@@ -8,16 +9,28 @@ import { RegistryFilter, RegistryService } from '../registry.service';
 })
 export class SearchRegistersComponent implements OnInit {
 
-  registry: RegistryFilter = { description: "" };
+  registry: RegistryFilter = { description: "", page: 0, size: 5 };
   registers: any[] = []
+  totalElements: number = 0;
 
   constructor(private service: RegistryService) { }
 
-  ngOnInit(): void {
-    this.fetch();
-  }
+  ngOnInit(): void { }
 
   fetch() {
-    this.service.fetch(this.registry).then(data => this.registers = data);
+    this.service.fetch(this.registry).then(data => {
+      this.registers = data['content']
+      this.totalElements = data['totalElements']
+    });
+  }
+
+  changePage(event: LazyLoadEvent) {
+    var page = 0;
+    if (event.first && event.rows)
+      page = event.first / event.rows
+
+    this.registry.page = page;
+
+    this.fetch();
   }
 }

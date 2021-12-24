@@ -6,6 +6,8 @@ export interface RegistryFilter {
   description: string;
   dueDateFrom?: Date;
   dueDateUntil?: Date;
+  page: number;
+  size: number;
 }
 
 @Injectable({
@@ -35,10 +37,13 @@ export class RegistryService {
     if (filter.dueDateUntil)
       params = params.set('dueDateUntil', this.datePipe.transform(filter.dueDateUntil, 'yyy-MM-dd')!);
 
+    params = params.set('page', filter.page)
+    params = params.set('size', filter.size)
+
     return this.http.get(`${this.baseURL}/filter?summary`, { headers, params })
       .toPromise()
       .then((res: any) => {
-        return res['content'];
+        return res;
       });
   }
 }

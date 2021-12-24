@@ -32,7 +32,8 @@
 
     <div class="p-grid">
         <div class="p-col-12">
-            <p-table [value]="registers" [paginator]="true" [rows]="6" [responsive]="true">
+            <p-table [value]="registers" [paginator]="true" [rows]="registry.size" [responsive]="true" [lazy]="true"
+                [totalRecords]="totalElements" (onLazyLoad)="changePage($event)">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Pessoa</th>
