@@ -1,24 +1,26 @@
 <div class="container">
     <div class="p-grid">
-        <div class="p-col-12">
-            <h1>Lançamentos</h1>
-        </div>
+        <form (ngSubmit)="fetch()">
+            <div class="p-col-12">
+                <h1>Lançamentos</h1>
+            </div>
 
-        <div class="p-col-12 p-fluid mb-4 mr-2">
-            <label>Descrição</label>
-            <input type="text" pInputText appOnInputFocus />
-        </div>
+            <div class="p-col-12 p-fluid mb-4 mr-2">
+                <label>Descrição</label>
+                <input type="text" pInputText appOnInputFocus name="description" [(ngModel)]="registry.description" />
+            </div>
 
-        <div class="p-col-12">
-            <label style="display: block;">Vencimento</label>
-            <input type="text" pInputText style="width: 96px;" class="mr-1" appOnInputFocus />
-            <label>Até</label>
-            <input type="text" pInputText style="width: 96px;" class="ml-1" appOnInputFocus />
-        </div>
+            <div class="p-col-12">
+                <label style="display: block;">Vencimento</label>
+                <input type="text" pInputText style="width: 96px;" class="mr-1" appOnInputFocus />
+                <label>Até</label>
+                <input type="text" pInputText style="width: 96px;" class="ml-1" appOnInputFocus />
+            </div>
 
-        <div class="p-col-12 mt-4 mb-4">
-            <button pButton type="submit" label="Pesquisar"></button>
-        </div>
+            <div class="p-col-12 mt-4 mb-4">
+                <button pButton type="submit" label="Pesquisar"></button>
+            </div>
+        </form>
     </div>
 
     <div class="p-grid">
