@@ -8,14 +8,12 @@ import { MessageModule } from 'primeng/message';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { PersonEditingComponent } from './person-editing/person-editing.component';
-import { PersonsGridComponent } from './persons-grid/persons-grid.component';
 import { SearchPersonsComponent } from './search-persons/search-persons.component';
 
 @NgModule({
   declarations: [
     SearchPersonsComponent,
     PersonEditingComponent,
-    PersonsGridComponent,
   ],
   imports: [
     CommonModule,

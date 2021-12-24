@@ -12,14 +12,12 @@ import { MessageModule } from 'primeng/message';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { RegisterGridComponent } from './register-grid/register-grid.component';
 import { RegistryEditingComponent } from './registry-editing/registry-editing.component';
 import { SearchRegistersComponent } from './search-registers/search-registers.component';
 
 @NgModule({
   declarations: [
-    SearchRegistersComponent,
-    RegisterGridComponent,
+    SearchRegistersComponent,    
     RegistryEditingComponent
   ],
   imports: [
