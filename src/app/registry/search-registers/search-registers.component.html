@@ -12,9 +12,16 @@
 
             <div class="p-col-12">
                 <label style="display: block;">Vencimento</label>
-                <input type="text" pInputText style="width: 96px;" class="mr-1" appOnInputFocus />
-                <label>Até</label>
-                <input type="text" pInputText style="width: 96px;" class="ml-1" appOnInputFocus />
+                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true"
+                    [inputStyle]="{width: '97px'}" name="dueDateFrom" [(ngModel)]="registry.dueDateFrom"
+                    [showButtonBar]="true">
+                </p-calendar>
+
+                <label class="mr-2 ml-2">Até</label>
+                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true"
+                    [inputStyle]="{width: '97px'}" name="dueDateUntil" [(ngModel)]="registry.dueDateUntil"
+                    [showButtonBar]="true">
+                </p-calendar>
             </div>
 
             <div class="p-col-12 mt-4 mb-4">
