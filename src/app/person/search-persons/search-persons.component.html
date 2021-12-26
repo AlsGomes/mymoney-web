@@ -46,7 +46,8 @@
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
-                            <a href="#" [pTooltip]="person.active == true ? 'Inativar' : 'Ativar'">{{person.active ==
+                            <a href="#" [pTooltip]="person.active == true ? 'Inativar' : 'Ativar'"
+                                (click)="toggleActivation(person.code, person.active)">{{person.active ==
                                 true
                                 ? "Ativo" : "Inativo"}}
                             </a>

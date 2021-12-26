@@ -36,4 +36,8 @@ export class PersonService {
   async delete(code: string): Promise<void> {
     await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
   }
+
+  async toggleActivation(code: string, active: boolean): Promise<any> {
+    await this.http.put(`${baseURL}/${code}/active`, active, { headers: authorizationHeader }).toPromise();
+  }
 }

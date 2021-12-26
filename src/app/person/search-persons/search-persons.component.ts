@@ -56,4 +56,16 @@ export class SearchPersonsComponent implements OnInit {
       console.log(err)
     }
   }
+
+  async toggleActivation(code: string, active: boolean) {
+    try {
+      active = !active
+      await this.service.toggleActivation(code, active)
+      let person = this.persons.find(p => p.code == code)
+      person.active = active
+    } catch (err) {
+      this.errorHandler.handle(err)
+      console.log(err)
+    }
+  }
 }
