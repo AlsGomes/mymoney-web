@@ -58,7 +58,7 @@ export class SearchRegistersComponent implements OnInit {
       this.dataTable.reset();
       this.messageService.add({ severity: 'success', summary: 'Exclusão', detail: 'Excluído com sucesso' })
     } catch (err) {
-      this.errorHandler.handle("Não foi possível excluir o registro")
+      this.errorHandler.handle(err)
       console.log(err)
     }
   }

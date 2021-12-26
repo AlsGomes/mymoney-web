@@ -8,11 +8,17 @@ export class ErrorHandlerService {
 
   constructor(private messageService: MessageService) { }
 
-  handle(error: any) {
-    if (typeof error === 'string') {
-      this.messageService.add({ summary: "Erro", detail: error, severity: 'error' })
+  handle(err: any) {
+    if (typeof err === 'string') {
+      this.messageService.add({ summary: "Erro", detail: err, severity: 'error' })
     } else {
-      this.messageService.add({ summary: "Erro", detail: "Ops, ocorreu um erro inesperado. Não foi possível processar seu pedido", severity: 'error' })
+      let errorMessage;
+      if (err.error.userDetail)
+        errorMessage = err.error.userDetail
+
+      this.messageService.add(
+        { summary: "Erro", detail: errorMessage ?? "Ops, ocorreu um erro inesperado. Não foi possível processar seu pedido", severity: 'error' }
+      )
     }
   }
 }

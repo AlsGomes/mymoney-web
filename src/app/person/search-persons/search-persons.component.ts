@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PersonFilter, PersonService } from '../person.service';
 
 @Component({
@@ -11,8 +12,13 @@ export class SearchPersonsComponent implements OnInit {
   persons: any[] = [];
   personFilter: PersonFilter = { name: "", size: 5, page: 0 };
   totalElements: number = 0;
+  @ViewChild('dataTable') dataTable: any;
 
-  constructor(private service: PersonService) { }
+  constructor(
+    private service: PersonService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void { }
 
@@ -31,5 +37,23 @@ export class SearchPersonsComponent implements OnInit {
     this.personFilter.page = page;
 
     this.fetchPersons();
+  }
+
+  delete(code: string) {
+    this.confirmationService.confirm({
+      message: 'Deseja realmente excluir?',
+      accept: () => this.confirmedExclusion(code)
+    })
+  }
+
+  async confirmedExclusion(code: string) {
+    try {
+      await this.service.delete(code);
+      this.messageService.add({ severity: 'success', summary: 'Exclusão', detail: 'Excluído com sucesso' })
+      this.dataTable.reset();
+    } catch (err) {
+      this.errorHandler.handle(err)
+      console.log(err)
+    }
   }
 }

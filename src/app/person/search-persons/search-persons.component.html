@@ -20,7 +20,7 @@
     <div class="p-grid">
         <div class="p-col-12">
             <p-table [value]="persons" [paginator]="true" [rows]="personFilter.size" [responsive]="true" [lazy]="true"
-                (onLazyLoad)="changePage($event)" [totalRecords]="totalElements">
+                (onLazyLoad)="changePage($event)" [totalRecords]="totalElements" #dataTable>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Nome</th>
@@ -53,7 +53,8 @@
                         </td>
                         <td class="col-actions">
                             <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
-                            <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"></button>
+                            <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
+                                (click)="delete(person.code)"></button>
                         </td>
                     </tr>
                 </ng-template>
