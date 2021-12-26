@@ -10,21 +10,21 @@ export interface RegistryFilter {
   size: number;
 }
 
+const baseURL = "http://localhost:8080/registers";
+const authorizationHeader = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDA1NDk4ODksInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJpbUV5eXg1enhaT3Y2b2lMblhFV195aS1BZjgiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.Ff7oToRWjz0yyeYCEzr5Olv9bvmzYk-8pj0-7XoiPY0";
+
+// const baseURL = "https://api.mymoney.net.br/registers";
+// const authorizationHeader = "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==";
+
 @Injectable({
   providedIn: 'root'
 })
 export class RegistryService {
 
-  baseURL = "http://localhost:8080/registers";
-  // baseURL = "https://api.mymoney.net.br/registers";
-
-  // authorizationHeader = "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==";
-  authorizationHeader = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDAzNzcwOTYsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJ4UVI4ME5xR0o1dzBycU9iaEYxY2pLeGk1RzQiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.PjZR_CmOcYgaIKNTnJTMfix6c59vSo99ttircRxkdcE";
-
   constructor(private http: HttpClient, private datePipe: DatePipe) { }
 
-  fetch(filter: RegistryFilter): Promise<any> {
-    const headers = new HttpHeaders().append("Authorization", this.authorizationHeader);
+  async fetch(filter: RegistryFilter): Promise<any> {
+    const headers = new HttpHeaders().append("Authorization", authorizationHeader);
 
     let params = new HttpParams();
 
@@ -40,10 +40,7 @@ export class RegistryService {
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)
 
-    return this.http.get(`${this.baseURL}/filter?summary`, { headers, params })
-      .toPromise()
-      .then((res: any) => {
-        return res;
-      });
+    return await this.http.get(`${baseURL}/filter?summary`, { headers, params })
+      .toPromise();
   }
 }

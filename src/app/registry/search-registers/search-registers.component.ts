@@ -10,7 +10,7 @@ import { RegistryFilter, RegistryService } from '../registry.service';
 export class SearchRegistersComponent implements OnInit {
 
   registry: RegistryFilter = { description: "", page: 0, size: 5 };
-  registers: any[] = []
+  registers: any[] = [];
   totalElements: number = 0;
 
   constructor(private service: RegistryService) { }
