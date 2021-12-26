@@ -38,7 +38,13 @@ export class RegistryService {
       .toPromise();
   }
 
-  async delete(code: String): Promise<void> {
-    await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+  async delete(code: String): Promise<boolean> {
+    try {
+      await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+      return true;
+    } catch (err) {
+      console.log(err)
+      return false;
+    }
   }
 }

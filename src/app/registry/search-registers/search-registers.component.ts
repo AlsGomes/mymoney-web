@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { RegistryFilter, RegistryService } from '../registry.service';
 
 @Component({
@@ -15,7 +15,10 @@ export class SearchRegistersComponent implements OnInit {
 
   @ViewChild('dataTable') dataTable: any;
 
-  constructor(private service: RegistryService) { }
+  constructor(
+    private service: RegistryService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void { }
 
@@ -36,7 +39,20 @@ export class SearchRegistersComponent implements OnInit {
   }
 
   async delete(code: string) {
-    await this.service.delete(code);
-    this.dataTable.reset();
+    this.confirmationService.confirm({
+      message: "Você confirmar a exclusão?",
+      accept: () => this.confirmedExclusion(code)
+    });
+
+  }
+
+  async confirmedExclusion(code: string) {
+    const res = await this.service.delete(code);
+    if (res) {
+      this.dataTable.reset();
+      this.messageService.add({ severity: 'success', summary: 'Exclusão', detail: 'Excluído com suscesso' })
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Exclusão', detail: 'Houve um erro na exclusão do lançamento' })
+    }
   }
 }
