@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { RegistryFilter, RegistryService } from '../registry.service';
 
 @Component({
@@ -18,14 +19,20 @@ export class SearchRegistersComponent implements OnInit {
   constructor(
     private service: RegistryService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void { }
 
   async fetch() {
-    const data = await this.service.fetch(this.registry);
-    this.registers = data['content']
-    this.totalElements = data['totalElements']
+    try {
+      const data = await this.service.fetch(this.registry);
+      this.registers = data['content']
+      this.totalElements = data['totalElements']
+    } catch (err) {
+      this.errorHandler.handle("Não foi possível buscar os dados");
+      console.log(err)
+    }
   }
 
   changePage(event: LazyLoadEvent) {
@@ -43,16 +50,16 @@ export class SearchRegistersComponent implements OnInit {
       message: "Você confirmar a exclusão?",
       accept: () => this.confirmedExclusion(code)
     });
-
   }
 
   async confirmedExclusion(code: string) {
-    const res = await this.service.delete(code);
-    if (res) {
+    try {
+      await this.service.delete(code);
       this.dataTable.reset();
-      this.messageService.add({ severity: 'success', summary: 'Exclusão', detail: 'Excluído com suscesso' })
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Exclusão', detail: 'Houve um erro na exclusão do lançamento' })
+      this.messageService.add({ severity: 'success', summary: 'Exclusão', detail: 'Excluído com sucesso' })
+    } catch (err) {
+      this.errorHandler.handle("Não foi possível excluir o registro")
+      console.log(err)
     }
   }
 }

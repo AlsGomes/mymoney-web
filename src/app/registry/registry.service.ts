@@ -17,7 +17,9 @@ const authorizationHeader = new HttpHeaders().append("Authorization", "Bearer ey
   providedIn: 'root'
 })
 export class RegistryService {
-  constructor(private http: HttpClient, private datePipe: DatePipe) { }
+  constructor(
+    private http: HttpClient,
+    private datePipe: DatePipe,) { }
 
   async fetch(filter: RegistryFilter): Promise<any> {
     let params = new HttpParams();
@@ -34,17 +36,11 @@ export class RegistryService {
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)
 
-    return await this.http.get(`${baseURL}/filter?summary`, { headers: authorizationHeader, params })
-      .toPromise();
+
+    return await this.http.get(`${baseURL}/filter?summary`, { headers: authorizationHeader, params }).toPromise();
   }
 
-  async delete(code: String): Promise<boolean> {
-    try {
-      await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
-      return true;
-    } catch (err) {
-      console.log(err)
-      return false;
-    }
+  async delete(code: String): Promise<void> {
+    await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
   }
 }
