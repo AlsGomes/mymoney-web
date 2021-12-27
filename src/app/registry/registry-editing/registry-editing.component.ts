@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CategoryService } from 'src/app/category/category.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -34,9 +35,12 @@ export class RegistryEditingComponent implements OnInit {
     private personService: PersonService,
     private messageService: MessageService,
     private service: RegistryService,
-    private errorHandler: ErrorHandlerService) { }
+    private errorHandler: ErrorHandlerService,
+    private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.params['code'])
+    
     this.fetchCategories()
     this.fetchPersons()
   }

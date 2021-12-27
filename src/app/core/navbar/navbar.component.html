@@ -11,8 +11,8 @@
 
     <ul class="navbar-menu" [hidden]="!showingMenu">
         <li class="navbar-user">Alisson Gomes</li>
-        <li class="navbar-menuitem"><a href="#">Pessoas</a></li>
-        <li class="navbar-menuitem"><a href="#">Lançamentos</a></li>
+        <li class="navbar-menuitem" routerLinkActive="active"><a routerLink="/persons">Pessoas</a></li>
+        <li class="navbar-menuitem" routerLinkActive="active"><a routerLink="/registers">Lançamentos</a></li>
         <li class="navbar-menuitem"><a href="#">Logout</a></li>
     </ul>
 </nav>

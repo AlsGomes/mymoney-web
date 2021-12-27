@@ -2,6 +2,7 @@ import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -19,12 +20,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
 }
 
+
+
 @NgModule({
   declarations: [
     NavbarComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
 
     HttpClientModule,
 
@@ -44,10 +48,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   exports: [
     NavbarComponent,
-    
+
     ToastModule,
     ConfirmDialogModule,
-    
+
     RegistryModule,
     PersonModule,
   ],
