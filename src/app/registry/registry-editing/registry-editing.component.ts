@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Category, CategoryService } from 'src/app/category/category.service';
+import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { CategoryService } from 'src/app/category/category.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
-import { PersonService, PersonSummary } from 'src/app/person/person.service';
+import { Category } from 'src/app/core/model/category';
+import { PersonSummary } from 'src/app/core/model/person';
+import { RegistryDTOInsert } from 'src/app/core/model/registry';
+import { PersonService } from 'src/app/person/person.service';
+import { RegistryService } from '../registry.service';
 
 @Component({
   selector: 'app-registry-editing',
@@ -12,11 +18,22 @@ export class RegistryEditingComponent implements OnInit {
 
   categories: any[] = [];
   persons: any[] = [];
-  types = [{ label: 'RECEITA', value: 'INCOME' }, { label: 'DESPESA', value: 'EXPENSE' }];
+  types = [{ name: 'RECEITA', code: 'INCOME' }, { name: 'DESPESA', code: 'EXPENSE' }];
+
+  registry: RegistryDTOInsert = {
+    description: "",
+    dueDate: "",
+    type: 'EXPENSE',
+    value: 0,
+    category: { code: '' },
+    person: { code: '' }
+  };
 
   constructor(
     private categoryService: CategoryService,
     private personService: PersonService,
+    private messageService: MessageService,
+    private service: RegistryService,
     private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
@@ -38,6 +55,17 @@ export class RegistryEditingComponent implements OnInit {
     try {
       const res = await this.personService.fetchAll();
       this.persons = res.map((p: PersonSummary) => ({ label: p.name, value: p.code }))
+    } catch (err) {
+      this.errorHandler.handle(err)
+      console.log(err)
+    }
+  }
+
+  async save(form: NgForm) {
+    try {
+      await this.service.save(this.registry)
+      this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento adicionado com sucesso' })
+      form.reset();
     } catch (err) {
       this.errorHandler.handle(err)
       console.log(err)

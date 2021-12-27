@@ -1,18 +1,19 @@
 <div class="container">
-    <form name="form" #form="ngForm" ngForm>
+    <form name="form" #form="ngForm" ngForm (ngSubmit)="save(form)">
         <div class="grid">
             <div class="col-12">
                 <h1>Novo Lançamento</h1>
             </div>
 
             <div class="col-12">
-                <p-selectButton [options]="types" #type></p-selectButton>
+                <p-selectButton name="type" [options]="types" #type [(ngModel)]="registry.type" optionLabel="name" optionValue="code"></p-selectButton>
             </div>
 
             <div class="col-6 md:col-3 p-fluid">
                 <label>Vencimento</label>
-                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true" name="dueDate" ngModel
-                    #dueDate="ngModel" [required]="true" [showButtonBar]="true"></p-calendar>
+                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true" name="dueDate"
+                    #dueDate="ngModel" [required]="true" [showButtonBar]="true" [(ngModel)]="registry.dueDate">
+                </p-calendar>
 
                 <p-message *ngIf="dueDate.hasError('required') && dueDate.touched" text="Informe a data de vencimento"
                     severity="error"></p-message>
@@ -20,14 +21,15 @@
 
             <div class="col-6 md:col-3 p-fluid">
                 <label>{{type.value === 'INCOME' ? 'Recebimento' : 'Pagamento'}}</label>
-                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true" [showButtonBar]="true">
+                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true" [showButtonBar]="true"
+                    [(ngModel)]="registry.paymentDate" name="paymentDate" #paymentDate="ngModel">
                 </p-calendar>
             </div>
 
             <div class="col-12 md:col-9 p-fluid">
                 <label>Descrição</label>
-                <input pInputText type="text" name="description" ngModel #description="ngModel" [required]="true"
-                    [minlength]="5">
+                <input pInputText type="text" name="description" #description="ngModel" [required]="true"
+                    [minlength]="5" [(ngModel)]="registry.description">
 
                 <p-message *ngIf="description.hasError('required') && description.touched" severity="error"
                     text="Informe uma descrição"></p-message>
@@ -40,8 +42,8 @@
             <div class="col-12 md:col-3 p-fluid">
                 <label>Valor</label>
 
-                <p-inputNumber mode="currency" currency="BRL" locale="pt-BR" placeholder="0,00" [min]="0" ngModel
-                    name="value" #value="ngModel" [required]="true">
+                <p-inputNumber mode="currency" currency="BRL" locale="pt-BR" placeholder="0,00" [min]="0" name="value"
+                    #value="ngModel" [required]="true" [(ngModel)]="registry.value">
                 </p-inputNumber>
 
                 <p-message *ngIf="value.hasError('required') && value.touched" text="Informe um valor" severity="error">
@@ -50,8 +52,8 @@
 
             <div class="col-12 md:col-6 p-fluid">
                 <label>Categoria</label>
-                <p-dropdown [options]="categories" [filter]="true" name="category" ngModel #category="ngModel"
-                    [required]="true"></p-dropdown>
+                <p-dropdown [options]="categories" [filter]="true" name="category" #category="ngModel" [required]="true"
+                    [(ngModel)]="registry.category.code" placeholder="Selecione"></p-dropdown>
 
                 <p-message *ngIf="category.hasError('required') && category.touched" text="Informe uma categoria"
                     severity="error"></p-message>
@@ -59,8 +61,8 @@
 
             <div class="col-12 md:col-6 p-fluid">
                 <label>Pessoa</label>
-                <p-dropdown [options]="persons" [filter]="true" name="person" ngModel #person="ngModel"
-                    [required]="true"></p-dropdown>
+                <p-dropdown [options]="persons" [filter]="true" name="person" [(ngModel)]="registry.person.code"
+                    #person="ngModel" [required]="true" placeholder="Selecione"></p-dropdown>
 
                 <p-message *ngIf="person.hasError('required') && person.touched" text="Informe a pessoa"
                     severity="error"></p-message>
@@ -68,7 +70,7 @@
 
             <div class="col-12 p-fluid">
                 <label>Observação</label>
-                <textarea pInputTextarea rows="3"></textarea>
+                <textarea name="obs" #obs="ngModel" pInputTextarea rows="3" [(ngModel)]="registry.obs"></textarea>
             </div>
 
             <div class="col-12">
