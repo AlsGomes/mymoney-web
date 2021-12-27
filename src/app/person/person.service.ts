@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PersonSummary } from '../core/model/registry';
+import { PersonSummary } from '../core/model/person';
 
 export interface PersonFilter {
   name: string;
