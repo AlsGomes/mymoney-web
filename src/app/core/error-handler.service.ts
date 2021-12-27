@@ -13,7 +13,7 @@ export class ErrorHandlerService {
       this.messageService.add({ summary: "Erro", detail: err, severity: 'error' })
     } else {
       let errorMessage;
-      if (err.error.userDetail)
+      if (err.error?.userDetail)
         errorMessage = err.error.userDetail
 
       this.messageService.add(

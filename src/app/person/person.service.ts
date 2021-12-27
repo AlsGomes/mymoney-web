@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PersonSummary } from '../core/model/person';
+import { PersonDTO, PersonDTOInsert, PersonSummary } from '../core/model/person';
 
 export interface PersonFilter {
   name: string;
@@ -41,5 +41,10 @@ export class PersonService {
 
   async toggleActivation(code: string, active: boolean): Promise<any> {
     await this.http.put(`${baseURL}/${code}/active`, active, { headers: authorizationHeader }).toPromise();
+  }
+
+  async save(person: PersonDTOInsert): Promise<PersonDTO> {
+    const res = await this.http.post<PersonDTO>(baseURL, person, { headers: authorizationHeader }).toPromise();
+    return res!;
   }
 }

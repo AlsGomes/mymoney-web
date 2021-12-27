@@ -1,5 +1,5 @@
 <div class="container">
-    <form name="form" ngForm #form="ngForm">
+    <form name="form" ngForm #form="ngForm" (ngSubmit)="save(form)">
         <div class="grid">
             <div class="col-12">
                 <h1>Nova Pessoa</h1>
@@ -7,11 +7,12 @@
 
             <div class="col-12 p-fluid">
                 <label>Nome</label>
-                <input pInputText type="text" name="name" ngModel #name="ngModel" [required]="true" [minlength]="5">
+                <input pInputText type="text" name="name" [(ngModel)]="person.name" #name="ngModel" [required]="true"
+                    [minlength]="5">
 
                 <p-message *ngIf="name.hasError('required') && name.touched" text="Nome é obrigatório" severity="error">
                 </p-message>
-                
+
                 <p-message *ngIf="name.hasError('minlength') && name.touched"
                     text="Mínimo de {{name.errors?.['minlength'].requiredLength}} caracteres" severity="error">
                 </p-message>
@@ -19,37 +20,40 @@
 
             <div class="col-12 md:col-9 p-fluid">
                 <label>Logradouro</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="street" #street="ngModel" [(ngModel)]="addressStreet">
             </div>
 
             <div class="col-12 md:col-3 p-fluid">
                 <label>Número</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="num" #num="ngModel" [(ngModel)]="addressNum">
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>Complemento</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="complement" #complement="ngModel"
+                    [(ngModel)]="addressComplement">
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>Bairro</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="district" #district="ngModel"
+                    [(ngModel)]="addressDistrict">
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>CEP</label>
-                <p-inputMask mask="99999-999"></p-inputMask>
+                <p-inputMask mask="99999-999" name="postalCode" #postalCode="ngModel"
+                    [(ngModel)]="addressPostalCode"></p-inputMask>
             </div>
 
             <div class="col-12 md:col-6 p-fluid">
                 <label>Cidade</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="city" #city="ngModel" [(ngModel)]="addressCity">
             </div>
 
             <div class="col-12 md:col-6 p-fluid">
                 <label>Estado</label>
-                <input pInputText type="text">
+                <input pInputText type="text" name="state" #state="ngModel" [(ngModel)]="addressState">
             </div>
 
             <div class="col-12">
