@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { RegistryFilter, RegistryService } from '../registry.service';
@@ -20,9 +21,12 @@ export class SearchRegistersComponent implements OnInit {
     private service: RegistryService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private errorHandler: ErrorHandlerService) { }
+    private errorHandler: ErrorHandlerService,
+    private title: Title) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.title.setTitle("Pesquisa de Registros")
+  }
 
   async fetch() {
     try {

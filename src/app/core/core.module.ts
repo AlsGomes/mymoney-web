@@ -2,6 +2,7 @@ import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -57,16 +58,16 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     RegistryModule,
     PersonModule,
   ],
-  providers: [
-    DatePipe,
-    { provide: LOCALE_ID, useValue: 'pt-BR' },
-
+  providers: [    
     RegistryService,
     PersonService,
-
+    
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     MessageService,
     ConfirmationService,
     TranslateService,
+    Title,
   ]
 })
 export class CoreModule { }

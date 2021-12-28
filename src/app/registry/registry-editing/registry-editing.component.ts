@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CategoryService } from 'src/app/category/category.service';
@@ -38,15 +39,19 @@ export class RegistryEditingComponent implements OnInit {
     private service: RegistryService,
     private errorHandler: ErrorHandlerService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private title: Title) { }
 
   ngOnInit(): void {
     this.fetchCategories()
     this.fetchPersons()
 
     this.editingCode = this.route.snapshot.params['code'];
-    if (this.editingCode)
+    if (this.editingCode) {
       this.fetchRegister(this.editingCode)
+    } else {
+      this.updateTitle()
+    }
   }
 
   private setDefaultRegistry(): void {
@@ -60,12 +65,13 @@ export class RegistryEditingComponent implements OnInit {
   }
 
   async fetchRegister(code: string) {
-    const res = await this.service.fetchByCode(code);
+    const res = await this.service.fetchByCode(code);    
 
     if (res.userDetail) {
       this.errorHandler.handle(res.userDetail)
     } else {
       this.updateLocalRegistryWith(res)
+      this.updateTitle()
     }
   }
 
@@ -112,6 +118,7 @@ export class RegistryEditingComponent implements OnInit {
     try {
       const res = await this.service.update(this.registry, code)
       this.updateLocalRegistryWith(res)
+      this.updateTitle()
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento editado com sucesso' })
     } catch (err) {
       this.errorHandler.handle(err)
@@ -139,5 +146,9 @@ export class RegistryEditingComponent implements OnInit {
     this.registry.dueDate = new Date(new Date(registry.dueDate).getTime() + offset)
     if (registry.paymentDate)
       this.registry.paymentDate = new Date(new Date(registry.paymentDate).getTime() + offset)
+  }
+
+  private updateTitle() {
+    this.title.setTitle(this.editingCode ? `Editando Registro: ${this.registry.description}` : "Novo Registro");
   }
 }
