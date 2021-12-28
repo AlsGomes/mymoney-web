@@ -13,6 +13,7 @@ import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
+import { SecurityModule } from '../security/security.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 
@@ -21,8 +22,6 @@ registerLocaleData(localePt, 'pt-BR');
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
 }
-
-
 
 @NgModule({
   declarations: [
@@ -37,6 +36,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
     RegistryModule,
     PersonModule,
+    SecurityModule,
 
     ToastModule,
     ConfirmDialogModule,
@@ -57,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
     RegistryModule,
     PersonModule,
+    SecurityModule,
   ],
   providers: [    
     RegistryService,

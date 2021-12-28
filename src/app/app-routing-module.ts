@@ -5,8 +5,11 @@ import { PersonEditingComponent } from './person/person-editing/person-editing.c
 import { SearchPersonsComponent } from './person/search-persons/search-persons.component';
 import { RegistryEditingComponent } from './registry/registry-editing/registry-editing.component';
 import { SearchRegistersComponent } from './registry/search-registers/search-registers.component';
+import { LoginFormComponent } from './security/login-form/login-form.component';
 
 const routes = [
+    { path: 'login', component: LoginFormComponent },
+
     { path: '', redirectTo: 'registers', pathMatch: 'full' },
     { path: 'registers', component: SearchRegistersComponent },
     { path: 'registers/editing', component: RegistryEditingComponent },
@@ -15,7 +18,7 @@ const routes = [
     { path: 'persons', component: SearchPersonsComponent },
     { path: 'persons/editing', component: PersonEditingComponent },
     { path: 'persons/editing/:code', component: PersonEditingComponent },
-    
+
     { path: 'page-not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: 'page-not-found' },
 ]

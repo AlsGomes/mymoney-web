@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar *ngIf="isLogin()"></app-navbar>
 <router-outlet></router-outlet>
 
 <p-toast position="top-center"></p-toast>
