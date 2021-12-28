@@ -46,14 +46,15 @@
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
-                            <a href="#" [pTooltip]="person.active == true ? 'Inativar' : 'Ativar'"
+                            <a [routerLink]="['/persons']" [pTooltip]="person.active == true ? 'Inativar' : 'Ativar'"
                                 (click)="toggleActivation(person.code, person.active)">{{person.active ==
                                 true
                                 ? "Ativo" : "Inativo"}}
                             </a>
                         </td>
                         <td class="col-actions">
-                            <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                            <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
+                                [routerLink]="['/persons/editing', person.code]"></a>
                             <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
                                 (click)="delete(person.code)"></button>
                         </td>
@@ -67,6 +68,8 @@
                     </tr>
                 </ng-template>
             </p-table>
+
+            <a class="mt-2" pButton [routerLink]="['/persons/editing']">Nova Pessoa</a>
         </div>
     </div>
 </div>

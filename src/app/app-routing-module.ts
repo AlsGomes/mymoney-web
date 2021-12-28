@@ -11,8 +11,11 @@ const routes = [
     { path: 'registers', component: SearchRegistersComponent },
     { path: 'registers/editing', component: RegistryEditingComponent },
     { path: 'registers/editing/:code', component: RegistryEditingComponent },
+
     { path: 'persons', component: SearchPersonsComponent },
+    { path: 'persons/editing', component: PersonEditingComponent },
     { path: 'persons/editing/:code', component: PersonEditingComponent },
+    
     { path: 'page-not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: 'page-not-found' },
 ]

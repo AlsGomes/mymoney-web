@@ -2,7 +2,7 @@
     <form name="form" ngForm #form="ngForm" (ngSubmit)="save(form)">
         <div class="grid">
             <div class="col-12">
-                <h1>Nova Pessoa</h1>
+                <h1>{{editingCode ? "Edição de" : "Nova"}} Pessoa</h1>
             </div>
 
             <div class="col-12 p-fluid">
@@ -30,20 +30,18 @@
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>Complemento</label>
-                <input pInputText type="text" name="complement" #complement="ngModel"
-                    [(ngModel)]="addressComplement">
+                <input pInputText type="text" name="complement" #complement="ngModel" [(ngModel)]="addressComplement">
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>Bairro</label>
-                <input pInputText type="text" name="district" #district="ngModel"
-                    [(ngModel)]="addressDistrict">
+                <input pInputText type="text" name="district" #district="ngModel" [(ngModel)]="addressDistrict">
             </div>
 
             <div class="col-12 md:col-4 p-fluid">
                 <label>CEP</label>
-                <p-inputMask mask="99999-999" name="postalCode" #postalCode="ngModel"
-                    [(ngModel)]="addressPostalCode"></p-inputMask>
+                <p-inputMask mask="99999-999" name="postalCode" #postalCode="ngModel" [(ngModel)]="addressPostalCode">
+                </p-inputMask>
             </div>
 
             <div class="col-12 md:col-6 p-fluid">
@@ -58,8 +56,8 @@
 
             <div class="col-12">
                 <button pButton type="submit" [disabled]="form.invalid">Salvar</button>
-                <button pButton type="button" class="p-button-info">Novo</button>
-                <a href="#">Voltar para a pesquisa</a>
+                <button pButton type="button" class="p-button-info" (click)="new(form)">Novo</button>
+                <a [routerLink]="['/persons']">Voltar para a pesquisa</a>
             </div>
         </div>
     </form>

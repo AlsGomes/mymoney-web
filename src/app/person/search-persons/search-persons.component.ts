@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PersonFilter, PersonService } from '../person.service';
@@ -18,9 +19,12 @@ export class SearchPersonsComponent implements OnInit {
     private service: PersonService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private errorHandler: ErrorHandlerService) { }
+    private errorHandler: ErrorHandlerService,
+    private title: Title,) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.title.setTitle('Pesquisa de Pessoas')
+  }
 
   fetchPersons() {
     this.service.fetchByName(this.personFilter).then(data => {

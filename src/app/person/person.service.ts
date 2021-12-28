@@ -35,6 +35,10 @@ export class PersonService {
     return await this.http.get(`${baseURL}/filter`, { headers: authorizationHeader, params }).toPromise()
   }
 
+  async fetchByCode(code: string): Promise<any> {
+    return await this.http.get<PersonDTO>(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+  }
+
   async delete(code: string): Promise<void> {
     await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
   }
@@ -46,5 +50,15 @@ export class PersonService {
   async save(person: PersonDTOInsert): Promise<PersonDTO> {
     const res = await this.http.post<PersonDTO>(baseURL, person, { headers: authorizationHeader }).toPromise();
     return res!;
+  }
+
+  async update(person: PersonDTOInsert, code: string): Promise<PersonDTO> {
+    const updateAddress = { address: person.address }
+    const resAddress = await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress, { headers: authorizationHeader }).toPromise()
+    
+    const updatePerson = { name: person.name }
+    const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson, { headers: authorizationHeader }).toPromise()
+    
+    return resPerson!;
   }
 }

@@ -65,7 +65,7 @@ export class RegistryEditingComponent implements OnInit {
   }
 
   async fetchRegister(code: string) {
-    const res = await this.service.fetchByCode(code);    
+    const res = await this.service.fetchByCode(code);
 
     if (res.userDetail) {
       this.errorHandler.handle(res.userDetail)
@@ -97,13 +97,13 @@ export class RegistryEditingComponent implements OnInit {
 
   save(form: NgForm) {
     if (!this.editingCode) {
-      this.saveNew(form)
+      this.saveNew()
     } else {
-      this.update(form, this.editingCode)
+      this.update(this.editingCode)
     }
   }
 
-  async saveNew(form: NgForm) {
+  async saveNew() {
     try {
       const res = await this.service.save(this.registry)
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento adicionado com sucesso' })
@@ -114,7 +114,7 @@ export class RegistryEditingComponent implements OnInit {
     }
   }
 
-  async update(form: NgForm, code: string) {
+  async update(code: string) {
     try {
       const res = await this.service.update(this.registry, code)
       this.updateLocalRegistryWith(res)
