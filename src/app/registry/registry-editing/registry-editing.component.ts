@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CategoryService } from 'src/app/category/category.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -37,7 +37,8 @@ export class RegistryEditingComponent implements OnInit {
     private messageService: MessageService,
     private service: RegistryService,
     private errorHandler: ErrorHandlerService,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.fetchCategories()
@@ -46,6 +47,16 @@ export class RegistryEditingComponent implements OnInit {
     this.editingCode = this.route.snapshot.params['code'];
     if (this.editingCode)
       this.fetchRegister(this.editingCode)
+  }
+
+  private setDefaultRegistry(): void {
+    this.registry = {
+      description: "",
+      type: 'EXPENSE',
+      value: 0,
+      category: { code: '' },
+      person: { code: '' }
+    }
   }
 
   async fetchRegister(code: string) {
@@ -88,9 +99,9 @@ export class RegistryEditingComponent implements OnInit {
 
   async saveNew(form: NgForm) {
     try {
-      await this.service.save(this.registry)
+      const res = await this.service.save(this.registry)
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento adicionado com sucesso' })
-      form.reset();
+      this.router.navigate(['/registers/editing', res.code])
     } catch (err) {
       this.errorHandler.handle(err)
       console.log(err)
@@ -108,6 +119,12 @@ export class RegistryEditingComponent implements OnInit {
     }
   }
 
+  new(form: NgForm) {
+    form.reset()
+    setTimeout(this.setDefaultRegistry.bind(this), 1);
+    this.router.navigate(['/registers/editing'])
+  }
+
   private updateLocalRegistryWith(registry: any) {
     this.registry.category.code = registry.category.code
     this.registry.person.code = registry.person.code
@@ -116,7 +133,7 @@ export class RegistryEditingComponent implements OnInit {
     this.registry.obs = registry.obs
     this.registry.description = registry.description
     this.registry.type = registry.type
-    this.registry.value = registry.value    
+    this.registry.value = registry.value
 
     const offset = new Date().getTimezoneOffset() * 60000
     this.registry.dueDate = new Date(new Date(registry.dueDate).getTime() + offset)

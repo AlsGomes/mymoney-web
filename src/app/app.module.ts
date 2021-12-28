@@ -9,6 +9,7 @@ import { RegistryEditingComponent } from './registry/registry-editing/registry-e
 import { SearchRegistersComponent } from './registry/search-registers/search-registers.component';
 
 const routes = [
+  { path: '', redirectTo: 'registers', pathMatch: 'full' },
   { path: 'registers', component: SearchRegistersComponent },
   { path: 'registers/editing', component: RegistryEditingComponent },
   { path: 'registers/editing/:code', component: RegistryEditingComponent },
