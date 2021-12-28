@@ -13,6 +13,7 @@ import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
+import { AuthService } from '../security/auth.service';
 import { SecurityModule } from '../security/security.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -62,7 +63,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [    
     RegistryService,
     PersonService,
-    
+    AuthService,
+
     DatePipe,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     MessageService,
