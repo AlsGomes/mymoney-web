@@ -38,9 +38,6 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     InputNumberModule,
     MessageModule,
   ],
-  exports: [
-    SearchRegistersComponent,
-    RegistryEditingComponent
-  ]
+  exports: []
 })
 export class RegistryModule { }

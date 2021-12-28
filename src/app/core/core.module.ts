@@ -13,6 +13,7 @@ import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { PageNotFoundComponent } from './page-not-found.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -24,7 +25,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,

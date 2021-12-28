@@ -28,9 +28,6 @@ import { SearchPersonsComponent } from './search-persons/search-persons.componen
     MessageModule,
     InputMaskModule,
   ],
-  exports: [
-    SearchPersonsComponent,
-    PersonEditingComponent,
-  ]
+  exports: []
 })
 export class PersonModule { }
