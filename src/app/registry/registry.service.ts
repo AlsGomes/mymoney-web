@@ -12,7 +12,7 @@ export interface RegistryFilter {
 }
 
 const baseURL = "http://localhost:8080/registers";
-const authorizationHeader = new HttpHeaders().append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDA2NDY0NjUsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJ4ZE5UVTRVSDBvVC1mTGp0TzNGVDRwQXRhcnMiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.HGkYgjhKcd74_1_CHQv3VW953bhGt34SffhAOMOCPeY");
+const authorizationHeader = new HttpHeaders().append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDA2NjgyODgsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJPX3VtT1lkT3kteDhhTUFUR0tkRmxqNFNjUFEiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.cpLoQPcIdQWR-pwaqlLKKV2eNUuJ7gJAeuqahsuRwIs");
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,11 @@ export class RegistryService {
   constructor(
     private http: HttpClient,
     private datePipe: DatePipe,) { }
+
+  async fetchByCode(code: string): Promise<any> {
+    const res = await this.http.get<any>(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+    return res;
+  }
 
   async fetch(filter: RegistryFilter): Promise<any> {
     let params = new HttpParams();
@@ -45,12 +50,25 @@ export class RegistryService {
   }
 
   async save(registry: RegistryDTOInsert): Promise<RegistryDTO> {
+    const newRegistry: any = { ...registry }
+    newRegistry.dueDate = this.datePipe.transform(registry.dueDate, 'yyy-MM-dd')!
 
-    registry.dueDate = this.datePipe.transform(registry.dueDate, 'yyy-MM-dd')!
     if (registry.paymentDate)
-      registry.paymentDate = this.datePipe.transform(registry.paymentDate, 'yyy-MM-dd')!
+      newRegistry.paymentDate = this.datePipe.transform(registry.paymentDate, 'yyy-MM-dd')!
 
-    const res = await this.http.post<RegistryDTO>(`${baseURL}`, registry, { headers: authorizationHeader }).toPromise();
+    const res = await this.http.post<RegistryDTO>(`${baseURL}`, newRegistry, { headers: authorizationHeader }).toPromise();
+    return res!;
+  }
+
+  async update(registry: RegistryDTOInsert, code: string): Promise<RegistryDTO> {
+    const updatedRegistry: any = { ...registry }
+    updatedRegistry.dueDate = this.datePipe.transform(registry.dueDate, 'yyy-MM-dd')!
+
+    if (registry.paymentDate)
+      updatedRegistry.paymentDate = this.datePipe.transform(registry.paymentDate, 'yyy-MM-dd')!
+
+    // console.log(updatedRegistry)
+    const res = await this.http.put<RegistryDTO>(`${baseURL}/${code}`, updatedRegistry, { headers: authorizationHeader }).toPromise();
     return res!;
   }
 }

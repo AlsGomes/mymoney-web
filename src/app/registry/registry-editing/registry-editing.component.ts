@@ -23,12 +23,13 @@ export class RegistryEditingComponent implements OnInit {
 
   registry: RegistryDTOInsert = {
     description: "",
-    dueDate: "",
     type: 'EXPENSE',
     value: 0,
     category: { code: '' },
     person: { code: '' }
   };
+
+  editingCode: string | undefined;
 
   constructor(
     private categoryService: CategoryService,
@@ -39,10 +40,22 @@ export class RegistryEditingComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['code'])
-    
     this.fetchCategories()
     this.fetchPersons()
+
+    this.editingCode = this.route.snapshot.params['code'];
+    if (this.editingCode)
+      this.fetchRegister(this.editingCode)
+  }
+
+  async fetchRegister(code: string) {
+    const res = await this.service.fetchByCode(code);
+
+    if (res.userDetail) {
+      this.errorHandler.handle(res.userDetail)
+    } else {
+      this.updateLocalRegistryWith(res)
+    }
   }
 
   async fetchCategories() {
@@ -65,7 +78,15 @@ export class RegistryEditingComponent implements OnInit {
     }
   }
 
-  async save(form: NgForm) {
+  save(form: NgForm) {
+    if (!this.editingCode) {
+      this.saveNew(form)
+    } else {
+      this.update(form, this.editingCode)
+    }
+  }
+
+  async saveNew(form: NgForm) {
     try {
       await this.service.save(this.registry)
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento adicionado com sucesso' })
@@ -74,5 +95,32 @@ export class RegistryEditingComponent implements OnInit {
       this.errorHandler.handle(err)
       console.log(err)
     }
+  }
+
+  async update(form: NgForm, code: string) {
+    try {
+      const res = await this.service.update(this.registry, code)
+      this.updateLocalRegistryWith(res)
+      this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento editado com sucesso' })
+    } catch (err) {
+      this.errorHandler.handle(err)
+      console.log(err)
+    }
+  }
+
+  private updateLocalRegistryWith(registry: any) {
+    this.registry.category.code = registry.category.code
+    this.registry.person.code = registry.person.code
+    this.registry.dueDate = registry.dueDate
+    this.registry.paymentDate = registry.paymentDate
+    this.registry.obs = registry.obs
+    this.registry.description = registry.description
+    this.registry.type = registry.type
+    this.registry.value = registry.value    
+
+    const offset = new Date().getTimezoneOffset() * 60000
+    this.registry.dueDate = new Date(new Date(registry.dueDate).getTime() + offset)
+    if (registry.paymentDate)
+      this.registry.paymentDate = new Date(new Date(registry.paymentDate).getTime() + offset)
   }
 }

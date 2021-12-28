@@ -2,11 +2,12 @@
     <form name="form" #form="ngForm" ngForm (ngSubmit)="save(form)">
         <div class="grid">
             <div class="col-12">
-                <h1>Novo Lançamento</h1>
+                <h1>{{editingCode?'Edição de':'Novo'}} Lançamento</h1>
             </div>
 
             <div class="col-12">
-                <p-selectButton name="type" [options]="types" #type [(ngModel)]="registry.type" optionLabel="name" optionValue="code"></p-selectButton>
+                <p-selectButton name="type" [options]="types" #type [(ngModel)]="registry.type" optionLabel="name"
+                    optionValue="code"></p-selectButton>
             </div>
 
             <div class="col-6 md:col-3 p-fluid">

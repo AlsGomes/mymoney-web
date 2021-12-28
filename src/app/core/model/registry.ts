@@ -3,8 +3,8 @@ import { PersonOnlyCode, PersonSummary } from "./person";
 
 export interface RegistryDTOInsert {
     description: string;
-    dueDate: string;
-    paymentDate?: string;
+    dueDate?: Date;
+    paymentDate?: Date;
     value: number;
     obs?: string;
     type: string;
@@ -14,8 +14,8 @@ export interface RegistryDTOInsert {
 export interface RegistryDTO {
     code: string;
     description: string;
-    dueDate: string;
-    paymentDate?: string;
+    dueDate: Date;
+    paymentDate?: Date;
     value: number;
     obs?: string;
     type: string;
