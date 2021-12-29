@@ -15,11 +15,14 @@ import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
+import { AuthGuard } from '../security/auth.guard';
 import { AuthService } from '../security/auth.service';
 import { CustomHttpInterceptor } from '../security/custom-http-interceptor';
 import { SecurityModule } from '../security/security.module';
+import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { UnathorizedComponent } from './unathorized.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -34,7 +37,8 @@ export function tokenGetter(): string {
 @NgModule({
   declarations: [
     NavbarComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UnathorizedComponent
   ],
   imports: [
     CommonModule,
@@ -77,6 +81,7 @@ export function tokenGetter(): string {
     RegistryService,
     PersonService,
     AuthService,
+    AuthGuard,
 
     {
       provide: HTTP_INTERCEPTORS,

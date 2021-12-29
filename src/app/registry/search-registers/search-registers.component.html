@@ -70,7 +70,9 @@
                         <td class="col-actions">
                             <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
                                 [routerLink]="['/registers/editing', register.code]"></a>
+
                             <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
+                                [disabled]="!hasAuthority('ROLE_REMOVER_LANCAMENTO')"
                                 (click)="delete(register.code)"></button>
                         </td>
                     </tr>

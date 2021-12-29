@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { AuthService } from 'src/app/security/auth.service';
 import { RegistryFilter, RegistryService } from '../registry.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class SearchRegistersComponent implements OnInit {
   constructor(
     private service: RegistryService,
     private messageService: MessageService,
+    private authService: AuthService,
     private confirmationService: ConfirmationService,
     private errorHandler: ErrorHandlerService,
     private title: Title) { }
@@ -65,5 +67,9 @@ export class SearchRegistersComponent implements OnInit {
       this.errorHandler.handle(err)
       console.log(err)
     }
+  }
+
+  hasAuthority(authority: string): boolean {
+    return this.authService.hasAuthority(authority)
   }
 }

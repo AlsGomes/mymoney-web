@@ -26,14 +26,6 @@ export class AuthService {
       const res = await this.http.post<any>(baseURL, `username=${email}&password=${password}&grant_type=password`, { headers: authorizationHeader, withCredentials: true }).toPromise()
       this.storeToken(res.access_token)
     } catch (err: any) {
-      if (err.status === 400 && err.error.error === "invalid_grant") {
-        return Promise.reject("Usuário ou senha inválido")
-      }
-
-      if (err.status === 401 && err.error.error_description === "Usuário não encontrado") {
-        return Promise.reject("Usuário ou senha inválido")
-      }
-
       return Promise.reject(err)
     }
   }
@@ -54,18 +46,34 @@ export class AuthService {
     return this.jwtPayload?.authorities.includes(authority) ?? false
   }
 
+  hasAnyOfAuthorities(authorities: string[]): boolean {
+    return Boolean(authorities.find(this.hasAuthority, this))
+  }
+
   async renewAccessToken(): Promise<void> {
     try {
       const res = await this.http.post<any>(baseURL, `grant_type=refresh_token`, { headers: authorizationHeader, withCredentials: true }).toPromise()
       this.storeToken(res.access_token)
     } catch (err) {
-      console.log('Erro ao renovar token.', err)
-      return Promise.resolve();
+      console.log(err)
     }
   }
 
   isInvalidAccessToken(): boolean {
     const token = localStorage.getItem('token')
     return !token || this.jwtHelper.isTokenExpired(token)
+  }
+
+  async logout(): Promise<void> {
+    try {
+      if (!this.isInvalidAccessToken()) {
+        await this.http.delete(`http://localhost:8080/tokens/revoke`, { withCredentials: true }).toPromise();
+      }
+      
+      localStorage.removeItem('token')
+      this.jwtPayload = undefined
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
