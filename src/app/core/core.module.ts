@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { environment } from 'src/environments/environment';
 import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
@@ -25,6 +26,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
 }
 
+export function tokenGetter(): string {
+  return localStorage.getItem('token') ?? "";
+}
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -36,9 +41,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return '';
-        }
+        tokenGetter,
+        allowedDomains: environment.tokenAllowedDomains,
+        disallowedRoutes: environment.tokenDisallowedRoutes
       }
     }),
 
@@ -67,7 +72,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PersonModule,
     SecurityModule,
   ],
-  providers: [    
+  providers: [
     RegistryService,
     PersonService,
     AuthService,

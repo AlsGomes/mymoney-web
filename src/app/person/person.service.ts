@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PersonDTO, PersonDTOInsert, PersonSummary } from '../core/model/person';
 
@@ -9,7 +9,6 @@ export interface PersonFilter {
 }
 
 const baseURL = "http://localhost:8080/persons";
-const authorizationHeader = new HttpHeaders().append('Authorization', "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDA3MzYyOTQsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJhQm9aSWo1UEgxeVVBdk5rRjR6dmJ2bWlzaHMiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.ZtbRGYJQigr3cOh5-ad-E1YKJVTeSLxy9i2DoZ3xP4Y");
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class PersonService {
   constructor(private http: HttpClient) { }
 
   async fetchAll(): Promise<PersonSummary[]> {
-    const res = await this.http.get<PersonSummary[]>(baseURL, { headers: authorizationHeader }).toPromise()
+    const res = await this.http.get<PersonSummary[]>(baseURL).toPromise()
     return res ?? []
   }
 
@@ -32,33 +31,33 @@ export class PersonService {
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)
 
-    return await this.http.get(`${baseURL}/filter`, { headers: authorizationHeader, params }).toPromise()
+    return await this.http.get(`${baseURL}/filter`, { params }).toPromise()
   }
 
   async fetchByCode(code: string): Promise<any> {
-    return await this.http.get<PersonDTO>(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+    return await this.http.get<PersonDTO>(`${baseURL}/${code}`).toPromise();
   }
 
   async delete(code: string): Promise<void> {
-    await this.http.delete(`${baseURL}/${code}`, { headers: authorizationHeader }).toPromise();
+    await this.http.delete(`${baseURL}/${code}`).toPromise();
   }
 
   async toggleActivation(code: string, active: boolean): Promise<any> {
-    await this.http.put(`${baseURL}/${code}/active`, active, { headers: authorizationHeader }).toPromise();
+    await this.http.put(`${baseURL}/${code}/active`, active).toPromise();
   }
 
   async save(person: PersonDTOInsert): Promise<PersonDTO> {
-    const res = await this.http.post<PersonDTO>(baseURL, person, { headers: authorizationHeader }).toPromise();
+    const res = await this.http.post<PersonDTO>(baseURL, person).toPromise();
     return res!;
   }
 
   async update(person: PersonDTOInsert, code: string): Promise<PersonDTO> {
     const updateAddress = { address: person.address }
-    const resAddress = await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress, { headers: authorizationHeader }).toPromise()
-    
+    const resAddress = await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress).toPromise()
+
     const updatePerson = { name: person.name }
-    const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson, { headers: authorizationHeader }).toPromise()
-    
+    const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson).toPromise()
+
     return resPerson!;
   }
 }
