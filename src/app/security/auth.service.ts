@@ -26,10 +26,12 @@ export class AuthService {
       const res = await this.http.post<any>(baseURL, `username=${email}&password=${password}&grant_type=password`, { headers: authorizationHeader }).toPromise()
       this.storeToken(res.access_token)
     } catch (err: any) {
-      if (err.status === 400) {
-        if (err.error.error === "invalid_grant") {
-          return Promise.reject("Usuário ou senha inválido")
-        }
+      if (err.status === 400 && err.error.error === "invalid_grant") {
+        return Promise.reject("Usuário ou senha inválido")
+      }
+
+      if (err.status === 401 && err.error.error_description === "Usuário não encontrado") {
+        return Promise.reject("Usuário ou senha inválido")
       }
 
       return Promise.reject(err)
@@ -38,6 +40,7 @@ export class AuthService {
 
   private storeToken(token: string) {
     this.jwtPayload = this.jwtHelper.decodeToken(token);
+    // console.log(this.jwtPayload)
     localStorage.setItem('token', token);
   }
 
@@ -46,5 +49,9 @@ export class AuthService {
 
     if (token)
       this.storeToken(token)
+  }
+
+  hasAuthority(authority: string): boolean {
+    return this.jwtPayload?.authorities.includes(authority) ?? false
   }
 }
