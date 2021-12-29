@@ -11,8 +11,8 @@ import { LoginFormComponent } from './security/login-form/login-form.component';
 
 const routes = [
     { path: 'login', component: LoginFormComponent },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-    { path: '', redirectTo: 'registers', pathMatch: 'full' },
     { path: 'registers', component: SearchRegistersComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
     { path: 'registers/editing', component: RegistryEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_LANCAMENTO'] } },
     { path: 'registers/editing/:code', component: RegistryEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_LANCAMENTO'] } },

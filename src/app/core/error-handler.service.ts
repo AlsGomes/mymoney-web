@@ -20,8 +20,9 @@ export class ErrorHandlerService {
       let errorMessage;
 
       if (err instanceof NotAuthenticatedError) {
-        errorMessage = "Sua sessão expirou. Faça login novamente."
         this.router.navigate(['/login'])
+        // errorMessage = "Sua sessão expirou. Faça login novamente."
+        return
       } else if (err.error?.userDetail) {
         errorMessage = err.error.userDetail
       } else if (err.status === 400 && err.error.error === "invalid_grant") {
