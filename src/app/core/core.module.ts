@@ -4,6 +4,7 @@ import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -32,8 +33,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   imports: [
     CommonModule,
     RouterModule,
-
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return '';
+        }
+      }
+    }),
 
     RegistryModule,
     PersonModule,
@@ -65,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PersonService,
     AuthService,
 
+    JwtHelperService,
     DatePipe,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     MessageService,
