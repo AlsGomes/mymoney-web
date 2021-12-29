@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
-const baseURL = "http://localhost:8080/oauth/token"
+const baseURL = environment.apiUrl + "/oauth/token"
 const authorizationHeader = new HttpHeaders()
   .append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==')
   .append('Content-Type', 'application/x-www-form-urlencoded')
@@ -69,7 +70,7 @@ export class AuthService {
       if (!this.isInvalidAccessToken()) {
         await this.http.delete(`http://localhost:8080/tokens/revoke`, { withCredentials: true }).toPromise();
       }
-      
+
       localStorage.removeItem('token')
       this.jwtPayload = undefined
     } catch (err) {

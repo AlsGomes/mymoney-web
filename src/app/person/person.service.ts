@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { PersonDTO, PersonDTOInsert, PersonSummary } from '../core/model/person';
 
 export interface PersonFilter {
@@ -8,7 +9,7 @@ export interface PersonFilter {
   page: number;
 }
 
-const baseURL = "http://localhost:8080/persons";
+const baseURL = environment.apiUrl + "/persons";
 
 @Injectable({
   providedIn: 'root'

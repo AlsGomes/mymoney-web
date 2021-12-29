@@ -30,9 +30,9 @@ export class NavbarComponent implements OnInit {
     return this.authService.hasAuthority(authority)
   }
 
-  logoutConfirmed() {
+  async logoutConfirmed() {
     try {
-      this.authService.logout()
+      await this.authService.logout()
       this.router.navigate(['/login'])
       this.messageService.add({ severity: 'success', detail: 'Você foi deslogado com succeso', summary: 'Logout' })
     } catch (err) {

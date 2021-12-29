@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { RegistryDTO, RegistryDTOInsert } from '../core/model/registry';
 
 export interface RegistryFilter {
@@ -11,7 +12,7 @@ export interface RegistryFilter {
   size: number;
 }
 
-const baseURL = "http://localhost:8080/registers";
+const baseURL = environment.apiUrl + "/registers";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,9 @@ export class RegistryService {
     if (registry.paymentDate)
       newRegistry.paymentDate = this.datePipe.transform(registry.paymentDate, 'yyy-MM-dd')!
 
+    if (registry.obs != undefined && registry.obs.trim().length == 0)
+      newRegistry.obs = undefined
+
     const res = await this.http.post<RegistryDTO>(`${baseURL}`, newRegistry).toPromise();
     return res!;
   }
@@ -65,6 +69,9 @@ export class RegistryService {
 
     if (registry.paymentDate)
       updatedRegistry.paymentDate = this.datePipe.transform(registry.paymentDate, 'yyy-MM-dd')!
+
+    if (registry.obs != undefined && registry.obs.trim().length == 0)
+      updatedRegistry.obs = undefined
 
     const res = await this.http.put<RegistryDTO>(`${baseURL}/${code}`, updatedRegistry).toPromise();
     return res!;

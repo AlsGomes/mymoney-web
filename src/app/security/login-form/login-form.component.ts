@@ -28,6 +28,9 @@ export class LoginFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.service.isInvalidAccessToken()) {
+      this.router.navigate(['/registers'])
+    }
   }
 
   async login() {
