@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
 import { AuthService } from '../security/auth.service';
+import { CustomHttpInterceptor } from '../security/custom-http-interceptor';
 import { SecurityModule } from '../security/security.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -77,6 +78,12 @@ export function tokenGetter(): string {
     PersonService,
     AuthService,
 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    },
+    
     JwtHelperService,
     DatePipe,
     { provide: LOCALE_ID, useValue: 'pt-BR' },

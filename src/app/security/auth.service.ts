@@ -23,7 +23,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<void> {
     try {
-      const res = await this.http.post<any>(baseURL, `username=${email}&password=${password}&grant_type=password`, { headers: authorizationHeader }).toPromise()
+      const res = await this.http.post<any>(baseURL, `username=${email}&password=${password}&grant_type=password`, { headers: authorizationHeader, withCredentials: true }).toPromise()
       this.storeToken(res.access_token)
     } catch (err: any) {
       if (err.status === 400 && err.error.error === "invalid_grant") {
@@ -40,7 +40,6 @@ export class AuthService {
 
   private storeToken(token: string) {
     this.jwtPayload = this.jwtHelper.decodeToken(token);
-    // console.log(this.jwtPayload)
     localStorage.setItem('token', token);
   }
 
@@ -53,5 +52,20 @@ export class AuthService {
 
   hasAuthority(authority: string): boolean {
     return this.jwtPayload?.authorities.includes(authority) ?? false
+  }
+
+  async renewAccessToken(): Promise<void> {
+    try {
+      const res = await this.http.post<any>(baseURL, `grant_type=refresh_token`, { headers: authorizationHeader, withCredentials: true }).toPromise()
+      this.storeToken(res.access_token)
+    } catch (err) {
+      console.log('Erro ao renovar token.', err)
+      return Promise.resolve();
+    }
+  }
+
+  isInvalidAccessToken(): boolean {
+    const token = localStorage.getItem('token')
+    return !token || this.jwtHelper.isTokenExpired(token)
   }
 }
