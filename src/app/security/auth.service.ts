@@ -68,7 +68,7 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       if (!this.isInvalidAccessToken()) {
-        await this.http.delete(`http://localhost:8080/tokens/revoke`, { withCredentials: true }).toPromise();
+        await this.http.delete(`${environment.apiUrl}/tokens/revoke`, { withCredentials: true }).toPromise();
       }
 
       localStorage.removeItem('token')
