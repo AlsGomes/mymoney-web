@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -25,9 +26,11 @@ export class LoginFormComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private messageService: MessageService,
     private router: Router,
+    private title: Title,
   ) { }
 
   ngOnInit(): void {
+    this.title.setTitle('Login MyMoney')
     if (!this.service.isInvalidAccessToken()) {
       this.router.navigate(['/registers'])
     }
