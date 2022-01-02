@@ -1,39 +1,66 @@
 <div class="container">
     <div class="p-grid">
-        <form (ngSubmit)="fetch()">
+        <form (ngSubmit)="fetch()" [formGroup]="form">
             <div class="p-col-12">
                 <h1>Lançamentos</h1>
             </div>
 
             <div class="p-col-12 p-fluid mb-4 mr-2">
                 <label>Descrição</label>
-                <input type="text" pInputText name="description" [(ngModel)]="registry.description" />
+                <input formControlName="description" name="description" type="text" pInputText/>
             </div>
 
             <div class="p-col-12">
                 <label style="display: block;">Vencimento</label>
-                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true"
-                    [inputStyle]="{width: '100px'}" name="dueDateFrom" [(ngModel)]="registry.dueDateFrom"
+                
+                <label class="mr-2 ml-2">De</label>
+                <p-calendar 
+                    formControlName="dueDateFrom"
+                    name="dueDateFrom"
+                    dateFormat="dd/mm/yy" 
+                    [showIcon]="true" 
+                    [readonlyInput]="true"
+                    [inputStyle]="{width: '100px'}" 
                     [showButtonBar]="true">
                 </p-calendar>
 
                 <label class="mr-2 ml-2">Até</label>
-                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [readonlyInput]="true"
-                    [inputStyle]="{width: '100px'}" name="dueDateUntil" [(ngModel)]="registry.dueDateUntil"
+                <p-calendar 
+                    formControlName="dueDateUntil"
+                    name="dueDateUntil"
+                    dateFormat="dd/mm/yy" 
+                    [showIcon]="true" 
+                    [readonlyInput]="true"
+                    [inputStyle]="{width: '100px'}" 
                     [showButtonBar]="true">
                 </p-calendar>
+
+                <div class="mt-2 block">
+                    <p-message 
+                        *ngIf="form.invalid && form.get('dueDateFrom')!.touched && form.get('dueDateUntil')!.touched" 
+                        text="A data de vencimento De precisa ser menor ou igual a data de vencimento Até"
+                        severity="error">
+                    </p-message>
+                </div>
             </div>
 
             <div class="p-col-12 mt-4 mb-4">
-                <button pButton type="submit" label="Pesquisar"></button>
+                <button pButton type="submit" label="Pesquisar" [disabled]="form.invalid"></button>
             </div>
         </form>
     </div>
 
     <div class="p-grid">
         <div class="p-col-12">
-            <p-table [value]="registers" [paginator]="true" [rows]="registry.size" [responsive]="true" [lazy]="true"
-                [totalRecords]="totalElements" (onLazyLoad)="changePage($event)" #dataTable>
+            <p-table 
+                [value]="registers" 
+                [paginator]="true" 
+                [rows]="form.get('size')!.value" 
+                [responsive]="true" 
+                [lazy]="true"
+                [totalRecords]="totalElements" 
+                (onLazyLoad)="changePage($event)" 
+                #dataTable>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Pessoa</th>

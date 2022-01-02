@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { AuthService } from 'src/app/security/auth.service';
-import { RegistryFilter, RegistryService } from '../registry.service';
+import { RegistryService } from '../registry.service';
 
 @Component({
   selector: 'app-search-registers',
@@ -12,9 +13,9 @@ import { RegistryFilter, RegistryService } from '../registry.service';
 })
 export class SearchRegistersComponent implements OnInit {
 
-  registry: RegistryFilter = { description: "", page: 0, size: 5 };
   registers: any[] = [];
   totalElements: number = 0;
+  form: FormGroup = new FormGroup({});
 
   @ViewChild('dataTable') dataTable: any;
 
@@ -24,15 +25,43 @@ export class SearchRegistersComponent implements OnInit {
     private authService: AuthService,
     private confirmationService: ConfirmationService,
     private errorHandler: ErrorHandlerService,
-    private title: Title) { }
+    private title: Title,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.title.setTitle("Pesquisa de Registros")
+    this.configForm()
+  }
+
+  configForm() {
+    this.form = this.formBuilder.group({
+      description: [''],
+      dueDateFrom: [undefined, [this.isValidDateRange]],
+      dueDateUntil: [undefined, [this.isValidDateRange]],
+      page: [0],
+      size: [5]
+    },);
+  }
+
+  isValidDateRange(input: FormControl) {
+    const dueDateFrom = input.root.get('dueDateFrom')?.value;
+    const dueDateUntil = input.root.get('dueDateUntil')?.value;
+
+    const dueDateFromAsDate = dueDateFrom ? new Date(dueDateFrom) : undefined
+    const dueDateUntilAsDate = dueDateUntil ? new Date(dueDateUntil) : undefined
+
+    if (!dueDateFromAsDate || !dueDateUntilAsDate)
+      return null
+
+    const isValid = (dueDateFromAsDate <= dueDateUntilAsDate ? null : { invalidRange: true })
+    console.log(isValid)
+    
+    return isValid
   }
 
   async fetch() {
     try {
-      const data = await this.service.fetch(this.registry);
+      const data = await this.service.fetch(this.form!.value);
       this.registers = data['content']
       this.totalElements = data['totalElements']
     } catch (err) {
@@ -46,7 +75,7 @@ export class SearchRegistersComponent implements OnInit {
     if (event.first && event.rows)
       page = event.first / event.rows
 
-    this.registry.page = page;
+    this.form!.get('page')!.setValue(page);
 
     this.fetch();
   }
