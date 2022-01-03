@@ -53,7 +53,7 @@ export class SearchRegistersComponent implements OnInit {
     if (!dueDateFromAsDate || !dueDateUntilAsDate)
       return null
 
-    const isValid = (dueDateFromAsDate <= dueDateUntilAsDate ? null : { invalidRange: true })
+    const isValid = (dueDateFromAsDate <= dueDateUntilAsDate ? undefined : { invalidRange: true })
     console.log(isValid)
     
     return isValid
