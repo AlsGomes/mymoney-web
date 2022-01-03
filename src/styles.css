@@ -47,3 +47,7 @@ label {
         }
     }
 }
+
+div.ng-touched.ng-dirty.ng-invalid input {
+    border-color: #f44336;
+}

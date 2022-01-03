@@ -10,7 +10,7 @@
                 <input formControlName="description" name="description" type="text" pInputText/>
             </div>
 
-            <div class="p-col-12">
+            <div class="p-col-12" formGroupName="due">
                 <label style="display: block;">Vencimento</label>
                 
                 <label class="mr-2 ml-2">De</label>
@@ -37,7 +37,7 @@
 
                 <div class="mt-2 block">
                     <p-message 
-                        *ngIf="form.invalid && form.get('dueDateFrom')!.touched && form.get('dueDateUntil')!.touched" 
+                        *ngIf="form.invalid && form.get('due')!.get('dueDateFrom')!.touched && form.get('due')!.get('dueDateUntil')!.touched" 
                         text="A data de vencimento De precisa ser menor ou igual a data de vencimento Até"
                         severity="error">
                     </p-message>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -36,16 +36,25 @@ export class SearchRegistersComponent implements OnInit {
   configForm() {
     this.form = this.formBuilder.group({
       description: [''],
-      dueDateFrom: [undefined, [this.isValidDateRange]],
-      dueDateUntil: [undefined, [this.isValidDateRange]],
+
+      due: this.formBuilder.group(
+        {
+          dueDateFrom: [undefined],
+          dueDateUntil: [undefined],
+        },
+        {
+          validators: this.isValidDateRange
+        }
+      ),
+
       page: [0],
       size: [5]
-    },);
+    });
   }
 
-  isValidDateRange(input: FormControl) {
-    const dueDateFrom = input.root.get('dueDateFrom')?.value;
-    const dueDateUntil = input.root.get('dueDateUntil')?.value;
+  isValidDateRange(group: AbstractControl) {
+    const dueDateFrom = group.get('dueDateFrom')?.value;
+    const dueDateUntil = group.get('dueDateUntil')?.value;
 
     const dueDateFromAsDate = dueDateFrom ? new Date(dueDateFrom) : undefined
     const dueDateUntilAsDate = dueDateUntil ? new Date(dueDateUntil) : undefined
@@ -54,8 +63,6 @@ export class SearchRegistersComponent implements OnInit {
       return null
 
     const isValid = (dueDateFromAsDate <= dueDateUntilAsDate ? undefined : { invalidRange: true })
-    console.log(isValid)
-    
     return isValid
   }
 
