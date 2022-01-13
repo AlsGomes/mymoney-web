@@ -11,6 +11,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { environment } from 'src/environments/environment';
+import { DashboardModule } from '../dashboard/dashboard.module';
+import { DashboardService } from '../dashboard/dashboard.service';
 import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
@@ -53,10 +55,11 @@ export function tokenGetter(): string {
       }
     }),
 
-    RegistryModule,
+    DashboardModule,
     PersonModule,
-    SecurityModule,
+    RegistryModule,
     ReportsModule,
+    SecurityModule,
 
     ToastModule,
     ConfirmDialogModule,
@@ -80,10 +83,12 @@ export function tokenGetter(): string {
     SecurityModule,
   ],
   providers: [
-    RegistryService,
-    PersonService,
-    ReportsService,
     AuthService,
+    DashboardService,
+    PersonService,
+    RegistryService,
+    ReportsService,
+    
     AuthGuard,
 
     {
