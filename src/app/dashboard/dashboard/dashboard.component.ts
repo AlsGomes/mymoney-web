@@ -3,6 +3,7 @@ import { DashboardService } from '../dashboard.service';
 import getDaysInMonth from 'date-fns/getDaysInMonth'
 import { StatisticsByDay } from 'src/app/core/model/registry';
 import { DecimalPipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,9 +42,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private service: DashboardService,
-    private decimalPipe: DecimalPipe,) { }
+    private decimalPipe: DecimalPipe,
+    private title: Title,
+  ) { }
 
   ngOnInit(): void {
+    this.title.setTitle("Dashboard")
     this.fetchStatsByCategory()
     this.fetchStatsByDay()
   }
