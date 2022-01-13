@@ -15,11 +15,12 @@ import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
+import { ReportsModule } from '../reports/reports.module';
+import { ReportsService } from '../reports/reports.service';
 import { AuthGuard } from '../security/auth.guard';
 import { AuthService } from '../security/auth.service';
 import { CustomHttpInterceptor } from '../security/custom-http-interceptor';
 import { SecurityModule } from '../security/security.module';
-import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { UnathorizedComponent } from './unathorized.component';
@@ -55,6 +56,7 @@ export function tokenGetter(): string {
     RegistryModule,
     PersonModule,
     SecurityModule,
+    ReportsModule,
 
     ToastModule,
     ConfirmDialogModule,
@@ -80,6 +82,7 @@ export function tokenGetter(): string {
   providers: [
     RegistryService,
     PersonService,
+    ReportsService,
     AuthService,
     AuthGuard,
 
