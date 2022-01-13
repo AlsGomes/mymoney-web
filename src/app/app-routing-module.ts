@@ -7,6 +7,7 @@ import { PersonEditingComponent } from './person/person-editing/person-editing.c
 import { SearchPersonsComponent } from './person/search-persons/search-persons.component';
 import { RegistryEditingComponent } from './registry/registry-editing/registry-editing.component';
 import { SearchRegistersComponent } from './registry/search-registers/search-registers.component';
+import { RegisterReportsComponent } from './reports/register-reports/register-reports.component';
 import { AuthGuard } from './security/auth.guard';
 import { LoginFormComponent } from './security/login-form/login-form.component';
 
@@ -15,6 +16,8 @@ const routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
+
+    { path: 'reports/register', component: RegisterReportsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
 
     { path: 'registers', component: SearchRegistersComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
     { path: 'registers/editing', component: RegistryEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_LANCAMENTO'] } },

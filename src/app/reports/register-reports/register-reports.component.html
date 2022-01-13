@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="grid">
+        <div class="col-12">
+            <h1>Relatório de lançamentos por pessoa</h1>
+        </div>
+
+        <form (ngSubmit)="fetchReport()" [formGroup]="form">
+            <div class="p-col-12" formGroupName="due">
+                <label class="mr-2 ml-2">Vencimento De</label>
+                <p-calendar 
+                    formControlName="dueDateFrom"
+                    name="dueDateFrom"
+                    dateFormat="dd/mm/yy" 
+                    [showIcon]="true" 
+                    [readonlyInput]="true"
+                    [inputStyle]="{width: '100px'}" 
+                    [showButtonBar]="true">
+                </p-calendar>
+
+                <label class="mr-2 ml-2">Até</label>
+                <p-calendar 
+                    formControlName="dueDateUntil"
+                    name="dueDateUntil"
+                    dateFormat="dd/mm/yy" 
+                    [showIcon]="true" 
+                    [readonlyInput]="true"
+                    [inputStyle]="{width: '100px'}" 
+                    [showButtonBar]="true">
+                </p-calendar>
+
+                <div class="mt-2 block">
+                    <p-message 
+                        *ngIf="form.invalid && form.get('due')!.get('dueDateFrom')!.touched && form.get('due')!.get('dueDateUntil')!.touched" 
+                        text="A data de vencimento De precisa ser menor ou igual a data de vencimento Até"
+                        severity="error">
+                    </p-message>
+                </div>
+            </div>
+
+            <div class="p-col-12 mt-4 mb-4">
+                <button pButton type="submit" label="Gerar relatório" [disabled]="form.invalid"></button>
+            </div>
+        </form>
+    </div>
+</div>

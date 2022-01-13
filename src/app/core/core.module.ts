@@ -11,17 +11,16 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { environment } from 'src/environments/environment';
-import { DashboardModule } from '../dashboard/dashboard.module';
-import { DashboardService } from '../dashboard/dashboard.service';
 import { PersonModule } from '../person/person.module';
 import { PersonService } from '../person/person.service';
 import { RegistryModule } from '../registry/registry.module';
 import { RegistryService } from '../registry/registry.service';
+import { ReportsModule } from '../reports/reports.module';
+import { ReportsService } from '../reports/reports.service';
 import { AuthGuard } from '../security/auth.guard';
 import { AuthService } from '../security/auth.service';
 import { CustomHttpInterceptor } from '../security/custom-http-interceptor';
 import { SecurityModule } from '../security/security.module';
-import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { UnathorizedComponent } from './unathorized.component';
@@ -54,10 +53,10 @@ export function tokenGetter(): string {
       }
     }),
 
-    PersonModule,
     RegistryModule,
+    PersonModule,
     SecurityModule,
-    DashboardModule,
+    ReportsModule,
 
     ToastModule,
     ConfirmDialogModule,
@@ -81,9 +80,9 @@ export function tokenGetter(): string {
     SecurityModule,
   ],
   providers: [
-    DashboardService,
     RegistryService,
     PersonService,
+    ReportsService,
     AuthService,
     AuthGuard,
 
