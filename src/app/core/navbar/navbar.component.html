@@ -20,6 +20,14 @@
             <a routerLink="/registers">Lançamentos</a>
         </li>
 
+        <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_LANCAMENTO')">
+            <a routerLink="/reports/register">Relatórios</a>
+        </li>
+
+        <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_LANCAMENTO')">
+            <a routerLink="/dashboard">Dashboard</a>
+        </li>
+
         <li class="navbar-menuitem">
             <a (click)="logout()">Logout</a>
         </li>
