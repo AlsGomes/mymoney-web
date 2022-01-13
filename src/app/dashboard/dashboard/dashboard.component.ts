@@ -15,30 +15,35 @@ export class DashboardComponent implements OnInit {
   pieChartData: any;
   lineChartData: any;
 
-  options = {
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem: any, data: any) => {
-          const dataset = data.datasets[tooltipItem.datasetIndex];
-          const value = dataset.data[tooltipItem.index];
-          const label = dataset.label ? (dataset.label + ': ') : '';
-
-          return label + this.decimalPipe.transform(value, '1.2-2', 'pt_BR');
+  optionsLine = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context: any): any => {
+            let label = context.dataset.label || '';
+            let value = context.raw || 0;
+            let formattedValue = this.decimalPipe.transform(value, '1.2-2', 'pt_BR');
+            return `${label}: ${formattedValue}`;
+          }
         }
       }
     }
   };
 
-  // options = {
-  //   title: {
-  //     display: true,
-  //     text: 'My Title',
-  //     fontSize: 16
-  //   },
-  //   legend: {
-  //     position: 'bottom'
-  //   }
-  // };
+  optionsPie = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context: any): any => {
+            let label = context.label || '';
+            let value = context.raw || 0;
+            let formattedValue = this.decimalPipe.transform(value, '1.2-2', 'pt_BR');
+            return `${label}: ${formattedValue}`;
+          }
+        }
+      }
+    }
+  };
 
   constructor(
     private service: DashboardService,
@@ -53,8 +58,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async fetchStatsByCategory() {
-    // const data = await this.service.fetchStatistcsByCategory(new Date("2017-04-10"));
-    const data = await this.service.fetchStatistcsByCategory(new Date());
+    const data = await this.service.fetchStatistcsByCategory(new Date("2017-04-10"));
+    // const data = await this.service.fetchStatistcsByCategory(new Date());
 
     const categories = data.map(stats => stats.category.name);
     const totals = data.map(stats => stats.total);
@@ -74,8 +79,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async fetchStatsByDay() {
-    // const data = await this.service.fetchStatistcsByDay(new Date("2017-04-10"));
-    const data = await this.service.fetchStatistcsByDay(new Date());
+    const data = await this.service.fetchStatistcsByDay(new Date("2017-04-10"));
+    // const data = await this.service.fetchStatistcsByDay(new Date());
 
     const totals = this.getTotalsPerDay(data, this.getWeekDays())
     this.lineChartData = {
