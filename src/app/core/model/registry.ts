@@ -22,3 +22,12 @@ export interface RegistryDTO {
     category: Category;
     person: PersonSummary;
 }
+export interface StatistcsByCategory {
+    category: Category;
+    total: number;
+}
+export interface StatisticsByDay {
+    type: string;
+    day: Date;
+    total: number;
+}

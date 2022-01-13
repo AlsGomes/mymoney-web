@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
     this.title.setTitle('Login MyMoney')
     if (!this.service.isInvalidAccessToken()) {
-      this.router.navigate(['/registers'])
+      this.router.navigate(['/dashboard'])
     }
   }
 
@@ -40,7 +40,7 @@ export class LoginFormComponent implements OnInit {
     try {
       const res = await this.service.login(this.loginForm.email, this.loginForm.password);
       this.messageService.add({ severity: 'success', summary: 'Bem-vindo!' })
-      this.router.navigate(['/registers'])
+      this.router.navigate(['/dashboard'])
     } catch (err) {
       this.errorHandler.handle(err)
       console.log(err)

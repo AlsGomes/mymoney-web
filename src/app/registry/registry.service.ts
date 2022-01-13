@@ -27,17 +27,17 @@ export class RegistryService {
     return res;
   }
 
-  async fetch(filter: RegistryFilter): Promise<any> {
+  async fetch(filter: any): Promise<any> {
     let params = new HttpParams();
 
     if (filter.description.trim().length != 0)
       params = params.set('description', filter.description)
 
-    if (filter.dueDateFrom)
-      params = params.set('dueDateFrom', this.datePipe.transform(filter.dueDateFrom, 'yyy-MM-dd')!);
+    if (filter.due.dueDateFrom)
+      params = params.set('dueDateFrom', this.datePipe.transform(filter.due.dueDateFrom, 'yyy-MM-dd')!);
 
-    if (filter.dueDateUntil)
-      params = params.set('dueDateUntil', this.datePipe.transform(filter.dueDateUntil, 'yyy-MM-dd')!);
+    if (filter.due.dueDateUntil)
+      params = params.set('dueDateUntil', this.datePipe.transform(filter.due.dueDateUntil, 'yyy-MM-dd')!);
 
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found.component';
 import { UnathorizedComponent } from './core/unathorized.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { PersonEditingComponent } from './person/person-editing/person-editing.component';
 import { SearchPersonsComponent } from './person/search-persons/search-persons.component';
 import { RegistryEditingComponent } from './registry/registry-editing/registry-editing.component';
@@ -12,6 +13,8 @@ import { LoginFormComponent } from './security/login-form/login-form.component';
 const routes = [
     { path: 'login', component: LoginFormComponent },
     { path: '', redirectTo: 'login', pathMatch: 'full' },
+    
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
 
     { path: 'registers', component: SearchRegistersComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
     { path: 'registers/editing', component: RegistryEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_LANCAMENTO'] } },
