@@ -36,7 +36,8 @@ export class PersonService {
   }
 
   async fetchByCode(code: string): Promise<any> {
-    return await this.http.get<PersonDTO>(`${baseURL}/${code}`).toPromise();
+    const res = await this.http.get<PersonDTO>(`${baseURL}/${code}`).toPromise();
+    return res;
   }
 
   async delete(code: string): Promise<void> {
@@ -55,6 +56,9 @@ export class PersonService {
   async update(person: PersonDTOInsert, code: string): Promise<PersonDTO> {
     const updateAddress = { address: person.address }
     const resAddress = await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress).toPromise()
+
+    const updateContacts = { contacts: person.contacts }
+    const resContacts = await this.http.put<PersonDTO>(`${baseURL}/${code}/contacts`, updateContacts).toPromise()
 
     const updatePerson = { name: person.name }
     const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson).toPromise()

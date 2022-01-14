@@ -8,12 +8,14 @@ export interface PersonOnlyCode {
 export interface PersonDTOInsert {
     name: string;
     address?: Address;
+    contacts?: ContactDTOInsert[];
 }
 export interface PersonDTO {
     code: string;
     name: string;
     active: boolean;
     address?: Address;
+    contacts?: ContactDTO[];
 }
 
 export interface Address {
@@ -24,4 +26,17 @@ export interface Address {
     postalCode?: string;
     city?: string;
     state?: string;
+}
+
+export interface ContactDTOInsert {
+    name: string;
+    email: string;
+    telephone: string;
+}
+
+export interface ContactDTO {
+    code: string;
+    name: string;
+    email: string;
+    telephone: string;
 }
