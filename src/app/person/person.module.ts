@@ -10,6 +10,7 @@ import { MessageModule } from 'primeng/message';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
+import { PersonContactsComponent } from './person-contacts/person-contacts.component';
 import { PersonEditingComponent } from './person-editing/person-editing.component';
 import { SearchPersonsComponent } from './search-persons/search-persons.component';
 
@@ -17,6 +18,7 @@ import { SearchPersonsComponent } from './search-persons/search-persons.componen
   declarations: [
     SearchPersonsComponent,
     PersonEditingComponent,
+    PersonContactsComponent,
   ],
   imports: [
     CommonModule,

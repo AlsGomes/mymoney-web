@@ -55,10 +55,10 @@ export class PersonService {
 
   async update(person: PersonDTOInsert, code: string): Promise<PersonDTO> {
     const updateAddress = { address: person.address }
-    const resAddress = await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress).toPromise()
+    await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress).toPromise()
 
     const updateContacts = { contacts: person.contacts }
-    const resContacts = await this.http.put<PersonDTO>(`${baseURL}/${code}/contacts`, updateContacts).toPromise()
+    await this.http.put<PersonDTO>(`${baseURL}/${code}/contacts`, updateContacts).toPromise()
 
     const updatePerson = { name: person.name }
     const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson).toPromise()

@@ -1,0 +1,8 @@
+.col-actions {
+    width: 120px;
+    text-align: center !important;
+}
+
+.col-actions .p-button {
+    margin: 1px;
+}

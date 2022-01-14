@@ -13,21 +13,12 @@ import { PersonService } from '../person.service';
   styleUrls: ['./person-editing.component.css']
 })
 export class PersonEditingComponent implements OnInit {
-  showingContactModal: boolean = false;
 
   person: PersonDTOInsert = {
     name: ''
   }
 
   personContacts: ContactDTOInsert[] = [];
-
-  newContactInfo: ContactDTOInsert = {
-    name: '',
-    email: '',
-    telephone: ''
-  };
-
-  contactIndex: number = -1
 
   addressStreet: string | undefined = '';
   addressNum: string | undefined = '';
@@ -56,44 +47,6 @@ export class PersonEditingComponent implements OnInit {
     } else {
       this.updateTitle()
     }
-  }
-
-  get updatingContact() {
-    return this.contactIndex != -1
-  }
-
-  showContactModal(form: NgForm) {
-    this.setDefaultNewContactInfo();
-    this.contactIndex = -1
-    this.showingContactModal = true
-    form.reset()
-  }
-
-  updateContact(contact: any, index: number, form: NgForm) {
-    this.showContactModal(form);
-
-    this.newContactInfo.name = contact.name;
-    this.newContactInfo.email = contact.email;
-    this.newContactInfo.telephone = contact.telephone;
-
-    this.contactIndex = index
-  }
-
-  saveNewContact(form: NgForm) {
-    if (this.contactIndex === -1) {
-      this.personContacts.push(this.newContactInfo);
-    } else {
-      this.personContacts[this.contactIndex] = this.newContactInfo
-    }
-
-    this.contactIndex = -1
-    this.showingContactModal = false
-    this.setDefaultNewContactInfo()
-    form.reset();
-  }
-
-  removeContact(index: number) {
-    this.personContacts.splice(index, 1)
   }
 
   async fetchPerson(code: string) {
@@ -186,14 +139,6 @@ export class PersonEditingComponent implements OnInit {
   private setDefaultPerson() {
     this.person = {
       name: ''
-    }
-  }
-
-  private setDefaultNewContactInfo() {
-    this.newContactInfo = {
-      name: '',
-      email: '',
-      telephone: ''
     }
   }
 
