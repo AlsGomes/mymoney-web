@@ -21,6 +21,13 @@ export interface RegistryDTO {
     type: string;
     category: Category;
     person: PersonSummary;
+    files?: RegisterFile[]
+}
+export interface RegisterFile {
+    code?: string,
+    fileName: string,
+    size: string,
+    contentType: string
 }
 export interface StatistcsByCategory {
     category: Category;

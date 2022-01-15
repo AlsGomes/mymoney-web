@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { RegistryDTO, RegistryDTOInsert } from '../core/model/registry';
@@ -13,6 +13,8 @@ export interface RegistryFilter {
 }
 
 const baseURL = environment.apiUrl + "/registers";
+const downloadRegisterFilesURL = `${environment.apiUrl}/registers/:registerCode/attachments/:fileName`
+const temporaryFileUploadURL = `${environment.apiUrl}/registers/attachment`
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +22,28 @@ const baseURL = environment.apiUrl + "/registers";
 export class RegistryService {
   constructor(
     private http: HttpClient,
-    private datePipe: DatePipe,) { }
+    private datePipe: DatePipe,
+  ) { }
+
+  get temporaryFileUploadURL(): string {
+    return temporaryFileUploadURL
+  }
+
+  get uploadHeaders() {
+    return new HttpHeaders()
+      .append('Authorization', 'Bearer ' + localStorage.getItem('token'))
+  }
 
   async fetchByCode(code: string): Promise<any> {
     const res = await this.http.get<any>(`${baseURL}/${code}`).toPromise();
+    if (res.files) {
+      res.files = res.files.map((file: any) =>
+      ({
+        ...file,
+        originalFileName: file.fileName.substring(file.fileName.indexOf('_') + 1, file.fileName.length),
+      }))
+    }
+
     return res;
   }
 
@@ -60,6 +80,14 @@ export class RegistryService {
       newRegistry.obs = undefined
 
     const res = await this.http.post<RegistryDTO>(`${baseURL}`, newRegistry).toPromise();
+    if (res && res.files) {
+      res.files = res.files.map((file: any) =>
+      ({
+        ...file,
+        originalFileName: file.fileName.substring(file.fileName.indexOf('_') + 1, file.fileName.length),
+      }))
+    }
+
     return res!;
   }
 
@@ -74,6 +102,21 @@ export class RegistryService {
       updatedRegistry.obs = undefined
 
     const res = await this.http.put<RegistryDTO>(`${baseURL}/${code}`, updatedRegistry).toPromise();
+    if (res && res.files) {
+      res.files = res.files.map((file: any) =>
+      ({
+        ...file,
+        originalFileName: file.fileName.substring(file.fileName.indexOf('_') + 1, file.fileName.length),
+      }))
+    }
+
+    return res!;
+  }
+
+  async fetchRegisterFile(registerCode: string, fileName: any): Promise<Blob> {
+    const headers = new HttpHeaders().append('Accept', 'application/pdf')
+    const url = downloadRegisterFilesURL.replace(':registerCode', registerCode).replace(':fileName', fileName);
+    const res = await this.http.get(url, { headers, responseType: 'blob' }).toPromise();
     return res!;
   }
 }

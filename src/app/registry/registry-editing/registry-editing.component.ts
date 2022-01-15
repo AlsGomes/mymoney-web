@@ -18,6 +18,9 @@ import { RegistryService } from '../registry.service';
 })
 export class RegistryEditingComponent implements OnInit {
 
+  saving = false;
+  uploading = false;
+  registerFiles: any = []
   categories: any[] = [];
   persons: any[] = [];
   types = [{ name: 'RECEITA', code: 'INCOME' }, { name: 'DESPESA', code: 'EXPENSE' }];
@@ -95,17 +98,67 @@ export class RegistryEditingComponent implements OnInit {
     }
   }
 
+  get temporaryFileUploadURL(): string {
+    return this.service.temporaryFileUploadURL;
+  }
+
+  get uploadHeaders() {
+    return this.service.uploadHeaders;
+  }
+
+  onBeforeUpload() {
+    this.uploading = true
+  }
+
+  onUploadError(event: any) {
+    this.errorHandler.handle("Não foi possível fazer o upload do arquivo")
+    this.uploading = false
+  }
+
+  onUpload(event: any) {
+    const temporaryFile = event.originalEvent.body;
+    const temporaryFileWithOriginalFileName =
+    {
+      ...temporaryFile,
+      originalFileName: temporaryFile.fileName.substring(temporaryFile.fileName.indexOf("_") + 1, temporaryFile.fileName.length),
+      temporary: true
+    }
+
+    this.registerFiles.push(temporaryFileWithOriginalFileName)
+    this.uploading = false
+  }
+
+  async downloadFile(fileName: any) {
+    try {
+      const res = await this.service.fetchRegisterFile(this.editingCode!, fileName);
+      const url = window.URL.createObjectURL(res);
+      window.open(url);
+    }
+    catch (err) {
+      this.errorHandler.handle('Não foi possível fazer o download do arquivo')
+      console.log(err)
+    }
+  }
+
+  removeFile(index: number) {
+    this.registerFiles.splice(index, 1);
+  }
+
   save(form: NgForm) {
+    this.saving = true
     if (!this.editingCode) {
       this.saveNew()
     } else {
       this.update(this.editingCode)
     }
+    this.saving = false
   }
 
   async saveNew() {
     try {
-      const res = await this.service.save(this.registry)
+      const toSaveRegistry: any = { ...this.registry }
+      this.updateRegisterFilesToSaveNew(toSaveRegistry)
+      const res = await this.service.save(toSaveRegistry)
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento adicionado com sucesso' })
       this.router.navigate(['/registers/editing', res.code])
     } catch (err) {
@@ -116,13 +169,52 @@ export class RegistryEditingComponent implements OnInit {
 
   async update(code: string) {
     try {
-      const res = await this.service.update(this.registry, code)
+      const toUpdateRegistry: any = { ...this.registry }
+      this.updateRegisterFilesToUpdate(toUpdateRegistry)
+      const res = await this.service.update(toUpdateRegistry, code)
       this.updateLocalRegistryWith(res)
       this.updateTitle()
       this.messageService.add({ severity: 'success', summary: 'Lançamento', detail: 'Lançamento editado com sucesso' })
     } catch (err) {
       this.errorHandler.handle(err)
       console.log(err)
+    }
+  }
+
+  updateRegisterFilesToUpdate(register: any) {
+    if (this.registerFiles.length != 0) {
+      register.files = this.registerFiles.map((file: any) => {
+        if (!file.code) {
+          return {
+            contentType: file.contentType,
+            fileName: file.fileName,
+            size: file.size
+          }
+        } else {
+          return {
+            code: file.code,
+            contentType: file.contentType,
+            fileName: file.fileName,
+            size: file.size
+          }
+        }
+      })
+    } else {
+      register.files = []
+    }
+  }
+
+  updateRegisterFilesToSaveNew(register: any) {
+    if (this.registerFiles.length != 0) {
+      const names: any[] = []
+
+      for (const file of this.registerFiles) {
+        names.push(file.fileName)
+      }
+
+      register.files = names;
+    } else {
+      register.files = []
     }
   }
 
@@ -146,6 +238,12 @@ export class RegistryEditingComponent implements OnInit {
     this.registry.dueDate = new Date(new Date(registry.dueDate).getTime() + offset)
     if (registry.paymentDate)
       this.registry.paymentDate = new Date(new Date(registry.paymentDate).getTime() + offset)
+
+    if (registry.files) {
+      this.registerFiles = registry.files;
+    } else {
+      this.registerFiles = []
+    }
   }
 
   private updateTitle() {
