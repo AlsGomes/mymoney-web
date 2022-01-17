@@ -24,8 +24,7 @@ export interface Address {
     complement?: string;
     district?: string;
     postalCode?: string;
-    city?: string;
-    state?: string;
+    city?: CityDTOInsert;
 }
 
 export interface ContactDTOInsert {
@@ -39,4 +38,22 @@ export interface ContactDTO {
     name: string;
     email: string;
     telephone: string;
+}
+
+export interface StateSummary {
+    id: number;
+    name: string;
+    initials: string;
+    ibge: number;
+}
+
+export interface CitySummary {
+    id: number;
+    name: string;
+    ibge: number;
+    stateId: number;
+}
+
+export interface CityDTOInsert {
+    id: number;
 }

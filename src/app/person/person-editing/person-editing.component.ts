@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
-import { Address, ContactDTOInsert, PersonDTOInsert } from 'src/app/core/model/person';
+import { Address, CitySummary, ContactDTOInsert, PersonDTOInsert, StateSummary } from 'src/app/core/model/person';
 import { PersonService } from '../person.service';
 
 @Component({
@@ -20,13 +20,17 @@ export class PersonEditingComponent implements OnInit {
 
   personContacts: ContactDTOInsert[] = [];
 
+  states: any[] = [];
+  cities: any[] = [];
+
   addressStreet: string | undefined = '';
   addressNum: string | undefined = '';
   addressComplement: string | undefined = '';
   addressDistrict: string | undefined = '';
-  addressCity: string | undefined = '';
-  addressState: string | undefined = '';
   addressPostalCode: string | undefined = '';
+
+  selectedStateId: number | undefined;
+  selectedCityId: number | undefined;
 
   editingCode: string | undefined;
 
@@ -40,6 +44,7 @@ export class PersonEditingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.fecthStates();
     this.editingCode = this.route.snapshot.params['code']
 
     if (this.editingCode) {
@@ -47,6 +52,19 @@ export class PersonEditingComponent implements OnInit {
     } else {
       this.updateTitle()
     }
+  }
+
+  async fecthStates() {
+    const res = await this.service.fetchStates();
+    this.states = res.map((state: StateSummary) => ({ label: state.name, value: state.id }));
+  }
+
+  async fetchCities() {
+    if (!this.selectedStateId)
+      return
+
+    const res = await this.service.fetchCities(this.selectedStateId);
+    this.cities = res.map((city: CitySummary) => ({ label: city.name, value: city.id }));
   }
 
   async fetchPerson(code: string) {
@@ -100,19 +118,16 @@ export class PersonEditingComponent implements OnInit {
     this.addressNum = this.addressNum?.trim().length != 0 ? this.addressNum?.trim() : undefined;
     this.addressComplement = this.addressComplement?.trim().length != 0 ? this.addressComplement?.trim() : undefined;
     this.addressDistrict = this.addressDistrict?.trim().length != 0 ? this.addressDistrict?.trim() : undefined;
-    this.addressCity = this.addressCity?.trim().length != 0 ? this.addressCity?.trim() : undefined;
-    this.addressState = this.addressState?.trim().length != 0 ? this.addressState?.trim() : undefined;
     this.addressPostalCode = this.addressPostalCode?.trim().length != 0 ? this.addressPostalCode?.trim().replace('-', '') : undefined;
 
     let address: Address | undefined;
-    if (this.addressStreet || this.addressNum || this.addressComplement || this.addressDistrict || this.addressCity || this.addressState || this.addressPostalCode) {
+    if (this.addressStreet || this.addressNum || this.addressComplement || this.addressDistrict || this.selectedCityId || this.addressPostalCode) {
       address = {
         street: this.addressStreet,
         num: this.addressNum,
         complement: this.addressComplement,
         district: this.addressDistrict,
-        city: this.addressCity,
-        state: this.addressState,
+        city: this.selectedCityId ? { id: this.selectedCityId } : undefined,
         postalCode: this.addressPostalCode,
       }
     }
@@ -127,9 +142,13 @@ export class PersonEditingComponent implements OnInit {
     this.addressNum = person.address?.num ?? undefined
     this.addressComplement = person.address?.complement ?? undefined
     this.addressDistrict = person.address?.district ?? undefined
-    this.addressCity = person.address?.city ?? undefined
-    this.addressState = person.address?.state ?? undefined
     this.addressPostalCode = person.address?.postalCode ?? undefined
+
+    if (person.address && person.address.city) {
+      this.selectedStateId = person.address.city.state.id;
+      this.fetchCities();
+      this.selectedCityId = person.address.city.id;
+    }
 
     if (person.contacts) {
       this.personContacts = person.contacts.map((p: any) => ({ name: p.name, email: p.email, telephone: p.telephone }))

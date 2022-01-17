@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { PersonDTO, PersonDTOInsert, PersonSummary } from '../core/model/person';
+import { CitySummary, PersonDTO, PersonDTOInsert, PersonSummary, StateSummary } from '../core/model/person';
 
 export interface PersonFilter {
   name: string;
@@ -10,6 +10,8 @@ export interface PersonFilter {
 }
 
 const baseURL = environment.apiUrl + "/persons";
+const baseStatesURL = environment.apiUrl + "/address/states";
+const baseCitiesURL = environment.apiUrl + "/address/cities";
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +66,18 @@ export class PersonService {
     const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson).toPromise()
 
     return resPerson!;
+  }
+
+  async fetchStates(): Promise<StateSummary[]> {
+    const res = await this.http.get<StateSummary[]>(baseStatesURL).toPromise();
+    return res!;
+  }
+
+  async fetchCities(stateId: number): Promise<CitySummary[]> {
+    let params = new HttpParams()
+    params = params.set("stateId", stateId);
+
+    const res = await this.http.get<CitySummary[]>(baseCitiesURL, { params }).toPromise();
+    return res!;
   }
 }

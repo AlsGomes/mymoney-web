@@ -37,7 +37,12 @@
                     pInputText 
                     type="text" 
                     #street="ngModel" 
-                    [(ngModel)]="addressStreet">
+                    [(ngModel)]="addressStreet"
+                    [minlength]="5">
+
+                <p-message 
+                    *ngIf="street.hasError('minlength') && street.touched" text="Mínimo de {{street.errors?.['minlength'].requiredLength}} caracteres" severity="error">
+                </p-message>
             </div>
 
             <div class="col-12 md:col-3 p-fluid">
@@ -81,24 +86,33 @@
             </div>
 
             <div class="col-12 md:col-6 p-fluid">
-                <label>Cidade</label>
-                <input 
-                    name="city" 
-                    pInputText 
-                    type="text" 
-                    #city="ngModel" 
-                    [(ngModel)]="addressCity">
+                <label>Estado</label>
+                <p-dropdown 
+                    [options]="states" 
+                    [filter]="true" 
+                    name="state" 
+                    #state="ngModel" 
+                    [required]="true"
+                    [(ngModel)]="selectedStateId"
+                    (onChange)="fetchCities()" 
+                    placeholder="Selecione">
+                </p-dropdown>           
             </div>
 
             <div class="col-12 md:col-6 p-fluid">
-                <label>Estado</label>
-                <input 
-                    name="state" 
-                    pInputText 
-                    type="text" 
-                    #state="ngModel" 
-                    [(ngModel)]="addressState">
+                <label>Cidade</label>
+                <p-dropdown 
+                    [options]="cities" 
+                    [filter]="true" 
+                    name="city" 
+                    #city="ngModel" 
+                    [required]="true"
+                    [(ngModel)]="selectedCityId" 
+                    [disabled]="!selectedStateId"
+                    placeholder="Selecione">
+                </p-dropdown>
             </div>
+
 
             <div class="col-12">
                 <app-person-contacts [personContacts]="personContacts"></app-person-contacts>

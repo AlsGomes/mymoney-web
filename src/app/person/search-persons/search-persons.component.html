@@ -38,11 +38,11 @@
                         </td>
                         <td>
                             <span class="p-column-title">Cidade</span>
-                            {{person.address?.city?? ""}}
+                            {{person.address?.city?.name ?? ""}}
                         </td>
                         <td>
                             <span class="p-column-title">Estado</span>
-                            {{person.address?.state?? ""}}
+                            {{person.address?.city?.state.name ?? ""}}
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
