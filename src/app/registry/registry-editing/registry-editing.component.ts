@@ -131,6 +131,7 @@ export class RegistryEditingComponent implements OnInit {
   async downloadFile(fileName: any) {
     try {
       const res = await this.service.fetchRegisterFile(this.editingCode!, fileName);
+      // return res.url;
       const url = window.URL.createObjectURL(res);
       window.open(url);
     }

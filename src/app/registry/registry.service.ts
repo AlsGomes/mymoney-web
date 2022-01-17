@@ -113,10 +113,19 @@ export class RegistryService {
     return res!;
   }
 
-  async fetchRegisterFile(registerCode: string, fileName: any): Promise<Blob> {
-    const headers = new HttpHeaders().append('Accept', 'application/pdf')
+  async fetchRegisterFile(registerCode: string, fileName: any): Promise<any> {
     const url = downloadRegisterFilesURL.replace(':registerCode', registerCode).replace(':fileName', fileName);
-    const res = await this.http.get(url, { headers, responseType: 'blob' }).toPromise();
-    return res!;
+    
+    // const headers = new HttpHeaders().append('Accept', 'application/pdf')
+    // const res = await this.http.get(url, { headers, responseType: 'blob' }).toPromise();
+    // return res;
+
+    const headers = new HttpHeaders().append('Accept', 'application/json')
+    const res = await this.http.get(url, { headers }).toPromise();
+    const resObj = JSON.parse(JSON.stringify(res))
+    console.log(resObj)
+    // return resObj;
+    const blobRes = await this.http.get(resObj.url, { responseType: 'blob' }).toPromise();
+    return blobRes!;
   }
 }

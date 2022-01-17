@@ -191,6 +191,16 @@
                                 <tr>
                                     <td>{{registerFile.originalFileName}}</td>
                                     <td class="col-actions">
+                                        <!-- <a 
+                                        *ngIf="!registerFile.temporary"
+                                        pTooltip="Fazer Download"
+                                        tooltipPosition="top"
+                                        icon="pi pi-download"
+                                        pButton
+                                        target="_blank"
+                                        [href]="downloadFile(registerFile.fileName)">
+                                        </a> -->
+                                        
                                         <button
                                             *ngIf="!registerFile.temporary"
                                             pTooltip="Fazer Download"
