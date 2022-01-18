@@ -190,25 +190,15 @@
                             <ng-template pTemplate="body" let-registerFile let-index="rowIndex">
                                 <tr>
                                     <td>{{registerFile.originalFileName}}</td>
-                                    <td class="col-actions">
-                                        <!-- <a 
-                                        *ngIf="!registerFile.temporary"
-                                        pTooltip="Fazer Download"
-                                        tooltipPosition="top"
-                                        icon="pi pi-download"
-                                        pButton
-                                        target="_blank"
-                                        [href]="downloadFile(registerFile.fileName)">
-                                        </a> -->
-                                        
+                                    <td class="col-actions">                                        
                                         <button
                                             *ngIf="!registerFile.temporary"
-                                            pTooltip="Fazer Download"
+                                            pTooltip="Exibir arquivo"
                                             tooltipPosition="top"
-                                            icon="pi pi-download"
+                                            icon="pi pi-external-link"
                                             pButton
                                             type="button"
-                                            (click)="downloadFile(registerFile.fileName)">
+                                            (click)="showFile(registerFile.fileName)">
                                         </button>
 
                                         <button

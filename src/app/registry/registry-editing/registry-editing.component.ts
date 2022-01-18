@@ -128,17 +128,25 @@ export class RegistryEditingComponent implements OnInit {
     this.uploading = false
   }
 
-  async downloadFile(fileName: any) {
+  async showFile(fileName: any) {
     try {
       const res = await this.service.fetchRegisterFile(this.editingCode!, fileName);
-      // return res.url;
-      const url = window.URL.createObjectURL(res);
-      window.open(url);
+      if (this.isFileProtocol(res.url)) {
+        const blobRes = await this.service.fetchRegisterFileBlob(this.editingCode!, fileName);
+        const url = window.URL.createObjectURL(blobRes);
+        window.open(url);
+      } else {
+        window.open(res.url);
+      }
     }
     catch (err) {
       this.errorHandler.handle('Não foi possível fazer o download do arquivo')
       console.log(err)
     }
+  }
+
+  isFileProtocol(url: string) {
+    return url.startsWith('file:///')
   }
 
   removeFile(index: number) {
