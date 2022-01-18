@@ -30,22 +30,19 @@
                 </p-message>
             </div>
 
-            <div class="col-12 md:col-9 p-fluid">
-                <label>Logradouro</label>
-                <input 
-                    name="street" 
-                    pInputText 
-                    type="text" 
-                    #street="ngModel" 
-                    [(ngModel)]="addressStreet"
-                    [minlength]="5">
-
-                <p-message 
-                    *ngIf="street.hasError('minlength') && street.touched" text="Mínimo de {{street.errors?.['minlength'].requiredLength}} caracteres" severity="error">
-                </p-message>
+            <div class="col-12 md:col-4 p-fluid">
+                <label>CEP</label>
+                <p-inputMask 
+                    name="postalCode" 
+                    mask="99999-999" 
+                    #postalCode="ngModel" 
+                    [(ngModel)]="addressPostalCode"
+                    (onBlur)="fetchAddress()"
+                    >08070500
+                </p-inputMask>
             </div>
-
-            <div class="col-12 md:col-3 p-fluid">
+            
+            <div class="col-12 md:col-4 p-fluid">
                 <label>Número</label>
                 <input 
                     name="num" 
@@ -65,7 +62,22 @@
                     [(ngModel)]="addressComplement">
             </div>
 
-            <div class="col-12 md:col-4 p-fluid">
+            <div class="col-12 md:col-9 p-fluid">
+                <label>Logradouro</label>
+                <input 
+                    name="street" 
+                    pInputText 
+                    type="text" 
+                    #street="ngModel" 
+                    [(ngModel)]="addressStreet"
+                    [minlength]="5">
+
+                <p-message 
+                    *ngIf="street.hasError('minlength') && street.touched" text="Mínimo de {{street.errors?.['minlength'].requiredLength}} caracteres" severity="error">
+                </p-message>
+            </div>
+
+            <div class="col-12 md:col-3 p-fluid">
                 <label>Bairro</label>
                 <input 
                     name="district" 
@@ -73,16 +85,6 @@
                     type="text" 
                     #district="ngModel" 
                     [(ngModel)]="addressDistrict">
-            </div>
-
-            <div class="col-12 md:col-4 p-fluid">
-                <label>CEP</label>
-                <p-inputMask 
-                    name="postalCode" 
-                    mask="99999-999" 
-                    #postalCode="ngModel" 
-                    [(ngModel)]="addressPostalCode">
-                </p-inputMask>
             </div>
 
             <div class="col-12 md:col-6 p-fluid">

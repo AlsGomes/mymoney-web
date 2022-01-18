@@ -54,6 +54,25 @@ export class PersonEditingComponent implements OnInit {
     }
   }
 
+  async fetchAddress() {
+    const isValidCep = this.addressPostalCode?.match('[0-9]{5}-[0-9]{3}') != null
+    if (!isValidCep)
+      return
+
+    const addressViaCep = await this.service.fetchAddressByCEP(this.addressPostalCode!)
+    if (!addressViaCep)
+      return;
+
+    const cityByIBGE = await this.service.fetchCityByIBGE(Number.parseInt(addressViaCep.ibge!));
+    this.selectedStateId = cityByIBGE.state.id;
+    this.fetchCities();
+    this.selectedCityId = cityByIBGE.id;
+
+    this.addressStreet = addressViaCep.logradouro
+    this.addressDistrict = addressViaCep.bairro
+    this.addressComplement = addressViaCep.complemento    
+  }
+
   async fecthStates() {
     const res = await this.service.fetchStates();
     this.states = res.map((state: StateSummary) => ({ label: state.name, value: state.id }));

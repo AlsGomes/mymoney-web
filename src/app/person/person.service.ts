@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { CitySummary, PersonDTO, PersonDTOInsert, PersonSummary, StateSummary } from '../core/model/person';
+import { CitySummary, PersonDTO, PersonDTOInsert, PersonSummary, StateSummary, ViaCepDTO } from '../core/model/person';
 
 export interface PersonFilter {
   name: string;
@@ -12,6 +12,7 @@ export interface PersonFilter {
 const baseURL = environment.apiUrl + "/persons";
 const baseStatesURL = environment.apiUrl + "/address/states";
 const baseCitiesURL = environment.apiUrl + "/address/cities";
+const viaCepUrl = 'https://viacep.com.br/ws'
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +80,18 @@ export class PersonService {
 
     const res = await this.http.get<CitySummary[]>(baseCitiesURL, { params }).toPromise();
     return res!;
+  }
+
+  async fetchCityByIBGE(ibge: number): Promise<any> {
+    let params = new HttpParams()
+    params = params.set("ibge", ibge);
+
+    const res = await this.http.get<any>(baseCitiesURL, { params }).toPromise();
+    return res!;
+  }
+
+  async fetchAddressByCEP(cep: string): Promise<ViaCepDTO | undefined> {
+    const res = await this.http.get<ViaCepDTO>(`${viaCepUrl}/${cep}/json`).toPromise();
+    return res ?? undefined;
   }
 }
