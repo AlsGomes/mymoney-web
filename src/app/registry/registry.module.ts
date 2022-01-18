@@ -6,10 +6,13 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageModule } from 'primeng/message';
+import { PanelModule } from 'primeng/panel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -18,7 +21,7 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
 
 @NgModule({
   declarations: [
-    SearchRegistersComponent,    
+    SearchRegistersComponent,
     RegistryEditingComponent
   ],
   imports: [
@@ -27,6 +30,9 @@ import { SearchRegistersComponent } from './search-registers/search-registers.co
     ReactiveFormsModule,
     RouterModule,
 
+    ProgressSpinnerModule,
+    FileUploadModule,
+    PanelModule,
     InputTextModule,
     ButtonModule,
     TableModule,
