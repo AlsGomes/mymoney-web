@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../security/auth.service';
 
 export class NotAuthenticatedError { }
 
@@ -11,7 +11,8 @@ export class ErrorHandlerService {
 
   constructor(
     private messageService: MessageService,
-    private router: Router) { }
+    private authService: AuthService,
+  ) { }
 
   handle(err: any) {
     if (typeof err === 'string') {
@@ -20,8 +21,7 @@ export class ErrorHandlerService {
       let errorMessage;
 
       if (err instanceof NotAuthenticatedError) {
-        this.router.navigate(['/login'])
-        // errorMessage = "Sua sessão expirou. Faça login novamente."
+        this.authService.login();
         return
       } else if (err.error?.userDetail) {
         errorMessage = err.error.userDetail

@@ -13,7 +13,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!req.url.includes('/oauth/token') && this.auth.isInvalidAccessToken()) {
+        if (!req.url.includes('/oauth2/token') && this.auth.isInvalidAccessToken()) {
             return from(this.auth.renewAccessToken())
                 .pipe(
                     mergeMap(() => {

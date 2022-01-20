@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/security/auth.service';
 import { ErrorHandlerService } from '../error-handler.service';
@@ -18,12 +17,11 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router,
     private errorHandler: ErrorHandlerService,
   ) { }
 
   ngOnInit(): void {
-    this.loggedUser = this.authService.jwtPayload?.user_name.split('@')[0];
+    this.loggedUser = this.authService.jwtPayload?.name;
   }
 
   hasAuthority(authority: string): boolean {
@@ -33,7 +31,7 @@ export class NavbarComponent implements OnInit {
   async logoutConfirmed() {
     try {
       await this.authService.logout()
-      this.router.navigate(['/login'])
+      this.authService.login()
       this.messageService.add({ severity: 'success', detail: 'Você foi deslogado com succeso', summary: 'Logout' })
     } catch (err) {
       this.errorHandler.handle('Erro ao tentar se deslogar')

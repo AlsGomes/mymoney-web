@@ -9,12 +9,11 @@ import { RegistryEditingComponent } from './registry/registry-editing/registry-e
 import { SearchRegistersComponent } from './registry/search-registers/search-registers.component';
 import { RegisterReportsComponent } from './reports/register-reports/register-reports.component';
 import { AuthGuard } from './security/auth.guard';
-import { LoginFormComponent } from './security/login-form/login-form.component';
+import { AuthorizedComponent } from './security/authorized/authorized.component';
 
 const routes = [
-    { path: 'login', component: LoginFormComponent },
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    
+    { path: '', redirectTo: 'authorized', pathMatch: 'full' },
+
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
 
     { path: 'reports/register', component: RegisterReportsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] } },
@@ -26,6 +25,8 @@ const routes = [
     { path: 'persons', component: SearchPersonsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_PESSOA'] } },
     { path: 'persons/editing', component: PersonEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] } },
     { path: 'persons/editing/:code', component: PersonEditingComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] } },
+
+    { path: 'authorized', component: AuthorizedComponent },
 
     { path: 'page-not-found', component: PageNotFoundComponent },
     { path: 'unathorized', component: UnathorizedComponent },

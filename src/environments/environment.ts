@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  tokenAllowedDomains: [ /localhost:8080/ ],
-  tokenDisallowedRoutes: [/\/oauth\/token/],
+  tokenAllowedDomains: [/localhost:8080/],
+  tokenDisallowedRoutes: [/\/oauth2\/token/],
   apiUrl: 'http://localhost:8080',
+  oauthCallbackUrl: 'http://local.mymoney.net.br:4200/authorized',
 };
 
 /*
