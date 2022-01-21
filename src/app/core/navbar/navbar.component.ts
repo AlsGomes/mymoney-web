@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { AuthService } from 'src/app/security/auth.service';
-import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,9 +14,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private errorHandler: ErrorHandlerService,
   ) { }
 
   ngOnInit(): void {
@@ -28,15 +25,8 @@ export class NavbarComponent implements OnInit {
     return this.authService.hasAuthority(authority)
   }
 
-  async logoutConfirmed() {
-    try {
-      await this.authService.logout()
-      this.authService.login()
-      this.messageService.add({ severity: 'success', detail: 'Você foi deslogado com succeso', summary: 'Logout' })
-    } catch (err) {
-      this.errorHandler.handle('Erro ao tentar se deslogar')
-      console.log(err)
-    }
+  logoutConfirmed() {
+    this.authService.logout()
   }
 
   logout() {

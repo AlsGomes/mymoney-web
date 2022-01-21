@@ -16,9 +16,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
-  ) {
-    // this.getToken();
-  }
+  ) { }
 
   login() {
     const state = this.getRandomString(40)
@@ -114,14 +112,17 @@ export class AuthService {
       const refreshToken = this.getRefreshToken()
       if (!refreshToken) return Promise.reject(null);
 
-      const params = [
-        `refresh_token=${refreshToken}`,
-        `client_id=angular`,
-        `grant_type=refresh_token`
-      ]
-      const fullUrl = oauthTokenUrl + '?' + params.join("&");
+      const basicAuth = `Basic ${btoa('angular:@ngul@r0')}`
+      const headers = new HttpHeaders()
+        .append('Content-Type', 'application/x-www-form-urlencoded')
+        .append('Authorization', basicAuth);
 
-      const res = await this.http.post<any>(fullUrl, undefined).toPromise()
+      const payload = new HttpParams()
+        .append('client_id', 'angular')
+        .append('grant_type', 'refresh_token')
+        .append('refresh_token', refreshToken);
+
+      const res = await this.http.post<any>(oauthTokenUrl, payload, { headers }).toPromise()
       this.storeToken(res['access_token'])
       this.storeRefreshToken(res['refresh_token'])
     } catch (err) {
@@ -136,16 +137,9 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
-    try {
-      if (!this.isInvalidAccessToken()) {
-        await this.http.delete(`${environment.apiUrl}/tokens/revoke`, { withCredentials: true }).toPromise();
-      }
-
-      localStorage.removeItem('token')
-      this.jwtPayload = undefined
-    } catch (err) {
-      console.log(err)
-    }
+    localStorage.clear();
+    this.jwtPayload = undefined
+    window.location.href = `${environment.apiUrl}/logout?returnTo=${environment.logoutReturnToUrl}`
   }
 
   private getRandomString(size: number): string {

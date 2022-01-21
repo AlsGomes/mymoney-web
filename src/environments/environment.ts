@@ -8,6 +8,7 @@ export const environment = {
   tokenDisallowedRoutes: [/\/oauth2\/token/],
   apiUrl: 'http://localhost:8080',
   oauthCallbackUrl: 'http://local.mymoney.net.br:4200/authorized',
+  logoutReturnToUrl:'https://github.com/AlsGomes'
 };
 
 /*
