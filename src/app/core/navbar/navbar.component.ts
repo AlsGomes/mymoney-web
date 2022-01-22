@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loggedUser = this.authService.jwtPayload?.name;
+    this.showName()
   }
 
   hasAuthority(authority: string): boolean {
@@ -46,5 +46,10 @@ export class NavbarComponent implements OnInit {
 
   toggleMenu() {
     this.showingMenu = !this.showingMenu
+    this.showName()
+  }
+
+  showName() {
+    this.loggedUser = this.authService.jwtPayload?.name;
   }
 }
