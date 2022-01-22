@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const baseUrl = environment.apiUrl + '/registers/reports/by-person'
@@ -20,7 +21,8 @@ export class ReportsService {
       .set("dateFrom", this.datePipe.transform(dates.due.dueDateFrom, 'yyy-MM-dd')!)
       .set("dateUntil", this.datePipe.transform(dates.due.dueDateUntil, 'yyy-MM-dd')!);
 
-    const res = await this.http.get(`${baseUrl}`, { params, responseType: 'blob' }).toPromise();
-    return res!;
+    return await firstValueFrom(
+      this.http.get(`${baseUrl}`, { params, responseType: 'blob' })
+    )
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CitySummary, PersonDTO, PersonDTOInsert, PersonSummary, StateSummary, ViaCepDTO } from '../core/model/person';
 
@@ -22,8 +23,9 @@ export class PersonService {
   constructor(private http: HttpClient) { }
 
   async fetchAll(): Promise<PersonSummary[]> {
-    const res = await this.http.get<PersonSummary[]>(baseURL).toPromise()
-    return res ?? []
+    return await firstValueFrom(
+      this.http.get<PersonSummary[]>(baseURL) ?? []
+    )
   }
 
   async fetchByName(filter: PersonFilter): Promise<any> {
@@ -35,63 +37,73 @@ export class PersonService {
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)
 
-    return await this.http.get(`${baseURL}/filter`, { params }).toPromise()
+    return await firstValueFrom(
+      this.http.get(`${baseURL}/filter`, { params })
+    )
   }
 
   async fetchByCode(code: string): Promise<any> {
-    const res = await this.http.get<PersonDTO>(`${baseURL}/${code}`).toPromise();
-    return res;
+    return await firstValueFrom(
+      this.http.get<PersonDTO>(`${baseURL}/${code}`)
+    )
   }
 
   async delete(code: string): Promise<void> {
-    await this.http.delete(`${baseURL}/${code}`).toPromise();
+    return await firstValueFrom(
+      this.http.delete<void>(`${baseURL}/${code}`)
+    ).catch(() => Promise.reject(null))
   }
 
   async toggleActivation(code: string, active: boolean): Promise<any> {
-    await this.http.put(`${baseURL}/${code}/active`, active).toPromise();
+    return await firstValueFrom(
+      this.http.put(`${baseURL}/${code}/active`, active)
+    )
   }
 
   async save(person: PersonDTOInsert): Promise<PersonDTO> {
-    const res = await this.http.post<PersonDTO>(baseURL, person).toPromise();
-    return res!;
+    return await firstValueFrom(
+      this.http.post<PersonDTO>(baseURL, person)
+    )
   }
 
   async update(person: PersonDTOInsert, code: string): Promise<PersonDTO> {
     const updateAddress = { address: person.address }
-    await this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress).toPromise()
+    const resUpdateAddress = await firstValueFrom(this.http.put<PersonDTO>(`${baseURL}/${code}/address`, updateAddress));
 
     const updateContacts = { contacts: person.contacts }
-    await this.http.put<PersonDTO>(`${baseURL}/${code}/contacts`, updateContacts).toPromise()
+    const resUpdateContacts = await firstValueFrom(this.http.put<PersonDTO>(`${baseURL}/${code}/contacts`, updateContacts))
 
     const updatePerson = { name: person.name }
-    const resPerson = await this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson).toPromise()
+    const resPerson = await firstValueFrom(this.http.put<PersonDTO>(`${baseURL}/${code}`, updatePerson))
 
-    return resPerson!;
+    return resPerson;
   }
 
   async fetchStates(): Promise<StateSummary[]> {
-    const res = await this.http.get<StateSummary[]>(baseStatesURL).toPromise();
-    return res!;
+    return await firstValueFrom(this.http.get<StateSummary[]>(baseStatesURL))
   }
 
   async fetchCities(stateId: number): Promise<CitySummary[]> {
     let params = new HttpParams()
     params = params.set("stateId", stateId);
 
-    const res = await this.http.get<CitySummary[]>(baseCitiesURL, { params }).toPromise();
-    return res!;
+    return await firstValueFrom(
+      this.http.get<CitySummary[]>(baseCitiesURL, { params })
+    )
   }
 
   async fetchCityByIBGE(ibge: number): Promise<any> {
     let params = new HttpParams()
     params = params.set("ibge", ibge);
 
-    const res = await this.http.get<any>(baseCitiesURL, { params }).toPromise();
-    return res!;
+    return await firstValueFrom(
+      this.http.get<any>(baseCitiesURL, { params })
+    )
   }
 
   async fetchAddressByCEP(cep: string): Promise<ViaCepDTO | undefined> {
-    const res = await this.http.get<ViaCepDTO>(`${viaCepUrl}/${cep}/json`).toPromise();
-    return res ?? undefined;
+    return await firstValueFrom(
+      this.http.get<ViaCepDTO>(`${viaCepUrl}/${cep}/json`) ?? undefined
+    )
   }
 }

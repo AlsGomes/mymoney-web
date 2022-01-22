@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as CryptoJS from 'crypto-js';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const oauthTokenUrl = environment.apiUrl + "/oauth2/token"
@@ -97,7 +98,9 @@ export class AuthService {
       .append('Authorization', basicAuth);
 
     try {
-      const res = await this.http.post<any>(oauthTokenUrl, payload, { headers }).toPromise();
+      const res = await firstValueFrom(
+        this.http.post<any>(oauthTokenUrl, payload, { headers })
+      );
       this.storeToken(res['access_token'])
       this.storeRefreshToken(res['refresh_token'])
       return Promise.resolve(null)
@@ -122,7 +125,7 @@ export class AuthService {
         .append('grant_type', 'refresh_token')
         .append('refresh_token', refreshToken);
 
-      const res = await this.http.post<any>(oauthTokenUrl, payload, { headers }).toPromise()
+      const res = await firstValueFrom(this.http.post<any>(oauthTokenUrl, payload, { headers }))
       this.storeToken(res['access_token'])
       this.storeRefreshToken(res['refresh_token'])
     } catch (err) {

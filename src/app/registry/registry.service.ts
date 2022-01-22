@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RegistryDTO, RegistryDTOInsert } from '../core/model/registry';
 
@@ -35,7 +36,9 @@ export class RegistryService {
   }
 
   async fetchByCode(code: string): Promise<any> {
-    const res = await this.http.get<any>(`${baseURL}/${code}`).toPromise();
+    const res = await firstValueFrom(
+      this.http.get<any>(`${baseURL}/${code}`)
+    )
     if (res.files) {
       res.files = res.files.map((file: any) =>
       ({
@@ -62,11 +65,15 @@ export class RegistryService {
     params = params.set('page', filter.page)
     params = params.set('size', filter.size)
 
-    return await this.http.get<any>(`${baseURL}/filter?summary`, { params }).toPromise();
+    return await firstValueFrom(
+      this.http.get<any>(`${baseURL}/filter?summary`, { params })
+    );
   }
 
   async delete(code: String): Promise<void> {
-    await this.http.delete(`${baseURL}/${code}`).toPromise();
+    await firstValueFrom(
+      this.http.delete(`${baseURL}/${code}`)
+    )
   }
 
   async save(registry: RegistryDTOInsert): Promise<RegistryDTO> {
@@ -79,7 +86,9 @@ export class RegistryService {
     if (registry.obs != undefined && registry.obs.trim().length == 0)
       newRegistry.obs = undefined
 
-    const res = await this.http.post<RegistryDTO>(`${baseURL}`, newRegistry).toPromise();
+    const res = await firstValueFrom(
+      this.http.post<RegistryDTO>(`${baseURL}`, newRegistry)
+    );
     if (res && res.files) {
       res.files = res.files.map((file: any) =>
       ({
@@ -88,7 +97,7 @@ export class RegistryService {
       }))
     }
 
-    return res!;
+    return res;
   }
 
   async update(registry: RegistryDTOInsert, code: string): Promise<RegistryDTO> {
@@ -101,7 +110,9 @@ export class RegistryService {
     if (registry.obs != undefined && registry.obs.trim().length == 0)
       updatedRegistry.obs = undefined
 
-    const res = await this.http.put<RegistryDTO>(`${baseURL}/${code}`, updatedRegistry).toPromise();
+    const res = await firstValueFrom(
+      this.http.put<RegistryDTO>(`${baseURL}/${code}`, updatedRegistry)
+    );
     if (res && res.files) {
       res.files = res.files.map((file: any) =>
       ({
@@ -110,13 +121,15 @@ export class RegistryService {
       }))
     }
 
-    return res!;
+    return res;
   }
 
   async fetchRegisterFile(registerCode: string, fileName: any): Promise<any> {
     const url = downloadRegisterFilesURL.replace(':registerCode', registerCode).replace(':fileName', fileName);
     const headers = new HttpHeaders().append('Accept', 'application/json')
-    const res = await this.http.get(url, { headers }).toPromise();
+    const res = await firstValueFrom(
+      this.http.get(url, { headers })
+    );
     const resObj = JSON.parse(JSON.stringify(res))
     return resObj;
   }
@@ -124,7 +137,9 @@ export class RegistryService {
   async fetchRegisterFileBlob(registerCode: string, fileName: any): Promise<Blob> {
     const url = downloadRegisterFilesURL.replace(':registerCode', registerCode).replace(':fileName', fileName);
     const headers = new HttpHeaders().append('Accept', 'application/pdf')
-    const res = await this.http.get(url, { headers, responseType: 'blob' }).toPromise();
-    return res!;
+    const res = await firstValueFrom(
+      this.http.get(url, { headers, responseType: 'blob' })
+    );
+    return res;
   }
 }
