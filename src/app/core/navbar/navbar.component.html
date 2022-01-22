@@ -2,7 +2,7 @@
     <div class="container">
         <div class="p-grid">
             <div class="p-col-12">
-                <a href="javascript:;" class="navbar-toggle" (click)="showingMenu = !showingMenu">
+                <a href="javascript:;" class="navbar-toggle" (click)="toggleMenu()">
                     <i class="pi pi-bars"></i>
                 </a>
             </div>
@@ -13,19 +13,19 @@
         <li class="navbar-user">{{loggedUser}}</li>
 
         <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_PESSOA')">
-            <a routerLink="/persons">Pessoas</a>
+            <a routerLink="/persons" (click)="closeMenu()">Pessoas</a>
         </li>
 
         <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_LANCAMENTO')">
-            <a routerLink="/registers">Lançamentos</a>
+            <a routerLink="/registers" (click)="closeMenu()">Lançamentos</a>
         </li>
 
         <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_LANCAMENTO')">
-            <a routerLink="/reports/register">Relatórios</a>
+            <a routerLink="/reports/register" (click)="closeMenu()">Relatórios</a>
         </li>
 
         <li class="navbar-menuitem" routerLinkActive="active" *ngIf="hasAuthority('ROLE_PESQUISAR_LANCAMENTO')">
-            <a routerLink="/dashboard">Dashboard</a>
+            <a routerLink="/dashboard" (click)="closeMenu()">Dashboard</a>
         </li>
 
         <li class="navbar-menuitem">

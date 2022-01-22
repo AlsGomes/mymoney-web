@@ -63,6 +63,11 @@ export class PersonEditingComponent implements OnInit {
     if (!addressViaCep)
       return;
 
+    const res: any = { ...addressViaCep }
+    if (res.erro) {
+      return
+    }
+
     const cityByIBGE = await this.service.fetchCityByIBGE(Number.parseInt(addressViaCep.ibge!));
     this.selectedStateId = cityByIBGE.state.id;
     this.fetchCities();
@@ -70,7 +75,7 @@ export class PersonEditingComponent implements OnInit {
 
     this.addressStreet = addressViaCep.logradouro
     this.addressDistrict = addressViaCep.bairro
-    this.addressComplement = addressViaCep.complemento    
+    this.addressComplement = addressViaCep.complemento
   }
 
   async fecthStates() {

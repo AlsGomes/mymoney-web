@@ -35,4 +35,16 @@ export class NavbarComponent implements OnInit {
       accept: () => this.logoutConfirmed()
     });
   }
+
+  closeMenu() {
+    this.showingMenu = false
+  }
+
+  openMenu() {
+    this.showingMenu = true
+  }
+
+  toggleMenu() {
+    this.showingMenu = !this.showingMenu
+  }
 }

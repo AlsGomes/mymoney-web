@@ -94,8 +94,8 @@
                     [filter]="true" 
                     name="state" 
                     #state="ngModel" 
-                    [required]="true"
                     [(ngModel)]="selectedStateId"
+                    [showClear]="true"
                     (onChange)="fetchCities()" 
                     placeholder="Selecione">
                 </p-dropdown>           
@@ -108,13 +108,12 @@
                     [filter]="true" 
                     name="city" 
                     #city="ngModel" 
-                    [required]="true"
+                    [showClear]="true"
                     [(ngModel)]="selectedCityId" 
                     [disabled]="!selectedStateId"
                     placeholder="Selecione">
                 </p-dropdown>
             </div>
-
 
             <div class="col-12">
                 <app-person-contacts [personContacts]="personContacts"></app-person-contacts>
