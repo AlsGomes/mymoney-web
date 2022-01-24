@@ -17,7 +17,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
-  ) { }
+  ) {
+    const token = this.getToken()
+    if (token)
+      this.storeToken(token)
+  }
 
   login() {
     const state = this.getRandomString(40)
