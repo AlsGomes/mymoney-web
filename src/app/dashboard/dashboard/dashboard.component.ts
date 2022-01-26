@@ -79,8 +79,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async fetchStatsByDay() {
-    const data = await this.service.fetchStatistcsByDay(new Date("2017-04-10"));
-    // const data = await this.service.fetchStatistcsByDay(new Date());
+    // const data = await this.service.fetchStatistcsByDay(new Date("2017-04-10"));
+    const data = await this.service.fetchStatistcsByDay(new Date());
 
     const totals = this.getTotalsPerDay(data, this.getWeekDays())
     this.lineChartData = {
