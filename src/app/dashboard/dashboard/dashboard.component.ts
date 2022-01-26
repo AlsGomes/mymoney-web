@@ -58,8 +58,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async fetchStatsByCategory() {
-    const data = await this.service.fetchStatistcsByCategory(new Date("2017-04-10"));
-    // const data = await this.service.fetchStatistcsByCategory(new Date());
+    // const data = await this.service.fetchStatistcsByCategory(new Date("2017-04-10"));
+    const data = await this.service.fetchStatistcsByCategory(new Date());
 
     const categories = data.map(stats => stats.category.name);
     const totals = data.map(stats => stats.total);

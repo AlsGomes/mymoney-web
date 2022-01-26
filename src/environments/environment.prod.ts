@@ -5,6 +5,9 @@ export const environment = {
   apiUrl: 'https://api.mymoney.net.br',
   oauthCallbackUrl: 'http://app.mymoney.net.br/authorized',
   logoutReturnToUrl:'https://github.com/AlsGomes',
+  // tokenAllowedDomains: [/localhost:8080/],
+  // tokenDisallowedRoutes: [/\/oauth2\/token/],
   // apiUrl: 'http://localhost:8080',
-  // tokenAllowedDomains: [ /localhost:8080/ ],
+  // oauthCallbackUrl: 'http://local.mymoney.net.br:4200/authorized',
+  // logoutReturnToUrl:'https://github.com/AlsGomes'
 };
