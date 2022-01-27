@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 
-console.log(__dirname + '/dist/mymoney-web')
 app.use(express.static(__dirname + '/dist/mymoney-web'))
 
 app.get('/*', function (req, res) {
